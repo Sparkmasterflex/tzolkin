@@ -1,0 +1,42 @@
+{
+  "name": "datetimepicker",
+  "version": "0.0.1",
+  "description": "React date/time picker using moment.js",
+  "main": "index.js",
+  "scripts": {
+    "watch": "webpack --watch -p --config ./webpack.production.config.js --progress --profile --colors",
+    "build": "webpack -p --config ./webpack.production.config.js --progress --profile --colors",
+    "start": "webpack --watch"
+  },
+  "keywords": [
+    "date",
+    "time",
+    "javascript",
+    "momentjs",
+    "datepicker",
+    "react"
+  ],
+  "author": "Sparkmasterflex",
+  "license": "ISC",
+  "peerDependencies": {
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "lodash": "^3.9.1"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.18.12",
+    "browser-sync-webpack-plugin": "^1.1.3",
+    "cjsx-loader": "^3.0.0",
+    "coffee-loader": "^0.7.2",
+    "coffeescript": "^2.0.2",
+    "css-loader": "^0.25.0",
+    "json-loader": "^0.5.4",
+    "node-sass": "^3.10.1",
+    "sass-loader": "^4.0.2",
+    "style-loader": "^0.13.1",
+    "webpack": "^3.8.1"
+  },
+  "dependencies": {
+    "moment": "^2.19.2"
+  }
+}

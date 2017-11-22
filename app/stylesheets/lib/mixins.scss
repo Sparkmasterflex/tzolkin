@@ -1,0 +1,3 @@
+// Rem calculator: input the expected 'px' size to convert it to rem
+// example: p { font-size: rem-calc(16); }
+@function rem-calc($target) { @return ($target / 16) * 1rem; }
