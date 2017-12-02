@@ -7,6 +7,7 @@ extend = require('lodash/object/extend')
 clone  = require('lodash/lang/clone')
 
 DatePicker = require('./pickers/date_picker')
+TimePicker = require('./pickers/time_picker')
 
 { ALLOWED_TYPES } = require('../constants')
 
@@ -65,6 +66,13 @@ class Tzolkin extends React.Component
       selected={this.state.selected}
       switch_month={this.switch_month}
       switch_year={this.switch_year}
+      set_date={this.set_date}
+    />
+
+  render_timepicker: ->
+    <TimePicker
+      selected={this.state.selected}
+      format={this.state.format}
       set_date={this.set_date}
     />
 
