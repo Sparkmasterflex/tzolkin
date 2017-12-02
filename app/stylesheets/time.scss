@@ -1,0 +1,39 @@
+.tzolkin {
+  &-timelist {
+    position: relative;
+    width: rem-calc(65);
+    height: rem-calc(170);
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid $grey;
+
+    &-ul {
+      position: absolute;
+      padding: rem-calc(3) 0;
+      transition: top 0.2s ease-in-out;
+
+      li {
+        padding: 0 rem-calc(3);
+        line-height: 2em;
+        text-align: center;
+        border-bottom: 1px solid $light-grey;
+        cursor: pointer;
+
+        &.tzolkin-selected,
+        &:hover { background: rgba($orange, 0.4); }
+
+        &:last-child { border-bottom: none; }
+      }
+    }
+  }
+
+  &-time {
+    &__scroll {
+      display: block;
+      padding: rem-calc(3) 0;
+      text-align: center;
+
+      &:before { font-size: rem-calc(18); }
+    }
+  }
+}

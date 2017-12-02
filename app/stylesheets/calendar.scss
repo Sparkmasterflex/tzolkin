@@ -1,0 +1,21 @@
+.tzolkin {
+  &-calendar {
+
+    &__controls {
+      display: flex;
+      align-items: center;
+    }
+
+    &__month {
+      flex: 1;
+      text-align: center;
+    }
+
+    &__nav {
+      color: #333;
+
+      &:before,
+      &:after { font-size: $basic; }
+    }
+  }
+}

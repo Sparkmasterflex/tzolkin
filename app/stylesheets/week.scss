@@ -1,0 +1,25 @@
+.tzolkin {
+  &-week {
+    display: flex;
+    width: 100%;
+
+    &:first-child {
+      .tzolkin-day,
+      .tzolkin-day--disabled {
+        border-top: 1px solid #ccc;
+      }
+    }
+
+    &:last-child {
+      .tzolkin-day,
+      .tzolkin-day--disabled { border-bottom-color: transparent; }
+    }
+
+    &--days {
+      @extend .tzolkin-week;
+      font-size: rem-calc(12);
+      background: #eee;
+      color: #999;
+    }
+  }
+}

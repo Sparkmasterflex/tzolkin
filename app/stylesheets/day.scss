@@ -1,0 +1,32 @@
+%day-block {
+  flex: 1;
+  padding: rem-calc(5) 0;
+  min-width: rem-calc(30);
+  border: { right: 1px solid #ddd; bottom: 1px solid #ddd; }
+  text-align: center;
+}
+
+.tzolkin {
+  &-day {
+    @extend %day-block;
+    transition: all 0.2s ease-in-out;
+
+    &:last-child { border-right-color: transparent; }
+
+    &:hover {
+      background: rgba($orange, 0.6);
+      cursor: pointer;
+    }
+
+    &--disabled {
+      @extend %day-block;
+      background: #ddd;
+      color: #777;
+    }
+
+    &--names {
+      @extend %day-block;
+      border-color: transparent;
+    }
+  }
+}

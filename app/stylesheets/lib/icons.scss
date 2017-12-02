@@ -1,0 +1,23 @@
+.tzicon {
+  text-decoration: none;
+
+  &:before,
+  &:after {
+    font: { family: FontAwesome; size: rem-calc(16); smoothing: antialiased; weight: normal; }
+    text-rendering: auto;
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  &--with {
+    @extend .tzicon;
+
+    &:before { margin-right: $quarter; }
+    &:after { margin-left: $quarter; }
+  }
+}
+
+.tzprevious:before { content: "\f0d9"; }
+.tznext:after      { content: "\f0da"; }
+.tzdown:before     { content: "\f0d7"; }
+.tzup:before       { content: "\f0d8"; }
