@@ -1,9 +1,10 @@
-React = require("react")
+React    = require "react"
 ReactDOM = require 'react-dom'
-moment = require("moment")
+moment   = require "moment"
 
-map   = require('lodash/collection/map')
-clone = require('lodash/lang/clone')
+map    = require('lodash/collection/map')
+extend = require('lodash/object/extend')
+clone  = require('lodash/lang/clone')
 
 DatePicker = require('./pickers/date_picker')
 
@@ -17,20 +18,34 @@ class Tzolkin extends React.Component
 
   constructor: (props) ->
     super(props)
+    configs = extend this.defaults(props?.type), props
     this.errors = {}
-    this.state =
-      show: true
-      selected: moment(props.default)
+    this.state = extend { show: false, selected: moment(configs.default) }, configs
+
+  defaults: (type='date') ->
+    format = switch type
+      when 'date'     then "MM/DD/YYYY"
+      when 'datetime' then "MM/DD/YYYY h:mma"
+      when 'time'     then "h:mma"
+
+    {
+      label: null
+      html_id: "tzolkin-#{type}"
+      type: type
+      default: moment().format("YYYY-MM-DD HH:mm:ss")
+      format: format
+    }
 
   render: ->
     errors = this.render_errors() if this.invalid_type()
     <div className='tzolkin-container'>
       {errors}
-      <label htmlFor="tzolkin-#{this.props.type}">{this.props.type}</label>
+      <label htmlFor={this.state.html_id}>{this.state.label or this.state.type}</label>
       <input
-        id="tzolkin-#{this.props.type}"
+        ref='tzolkin_input'
+        id={this.state.html_id}
         type='text'
-        defaultValue={this.props.default}
+        defaultValue={this.state.selected?.format(this.state.format)}
         onFocus={this.display_picker}
       />
       {this.render_picker()}
@@ -38,15 +53,20 @@ class Tzolkin extends React.Component
 
   render_picker: ->
     return "" unless this.state.show
-    switch this.props.type
+    switch this.state.type
       when 'date'     then this.render_datepicker()
+      when 'time'     then this.render_timepicker()
       else
         <div>nothing</div>
-     # when 'time'     then TimePicker
      # when 'datetime' then DateTimePicker
 
   render_datepicker: ->
-    <DatePicker selected={this.state.selected} switch_month={this.switch_month} />
+    <DatePicker
+      selected={this.state.selected}
+      switch_month={this.switch_month}
+      switch_year={this.switch_year}
+      set_date={this.set_date}
+    />
 
   render_errors: ->
     map this.errors, (err,key) -> <p key="error-#{key}">{err}</p>
@@ -57,17 +77,25 @@ class Tzolkin extends React.Component
     !valid
 
   switch_month: (direction, num) =>
-    selected = @state.selected
+    @switch_to('month', direction, num)
+
+  switch_year: (direction, num) =>
+    @switch_to('year', direction, num)
+
+  switch_to: (unit, direction, num) ->
+    selected = this.state.selected
     if direction is 'subtract'
-      selected.subtract(1, 'month')
+      selected.subtract(num, unit)
     else
-      selected.add(1, 'month')
+      selected.add(num, unit)
 
+    this.setState {selected: selected}
+
+  set_date: (d) =>
+    this.refs.tzolkin_input.value = d.format(this.state.format)
     @setState
-      selected: selected
-
-
-
+      selected: d
+      show: false
 
   ###==================
          EVENTS

@@ -8,8 +8,14 @@ class Day extends React.Component
     klass  = 'tzolkin-day'
     klass += '--disabled' unless this.props.enabled
 
-    <div className={klass}>
+    <div className={klass} onClick={this.select_date}>
       {this.props.day.format("DD")}
     </div>
 
+  ###==================
+         EVENTS
+  ==================###
+  select_date: (e) =>
+    e.preventDefault()
+    @props.set_date(@props.day)
 module.exports = Day
