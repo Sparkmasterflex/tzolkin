@@ -7,6 +7,7 @@ class Day extends React.Component
   render: ->
     klass  = 'tzolkin-day'
     klass += '--disabled' unless this.props.enabled
+    klass += '--selected' if this.props.enabled and this.props.selected
 
     <div className={klass} onClick={this.select_date}>
       {this.props.day.format("DD")}

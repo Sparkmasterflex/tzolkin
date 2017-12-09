@@ -16,6 +16,7 @@ class Week extends React.Component
         <Day
           key="day-#{week_num}-#{d}"
           day={day}
+          selected={day.format("YYYY-MM-DD") is @props.selected.format("YYYY-MM-DD")}
           enabled={which_day.month() is day.month()}
           set_date={@props.set_date}
         />

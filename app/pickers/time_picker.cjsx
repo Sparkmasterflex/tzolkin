@@ -53,6 +53,7 @@ class TimePicker extends React.Component
 
     <li
       onClick={this.select_time}
+      key="#{hour_24}#{minute}"
       data-time="#{hour_24}:#{minute}"
       className={klass}
     >{hour}:{minute}{ampm}</li>

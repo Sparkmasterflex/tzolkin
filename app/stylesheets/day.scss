@@ -1,6 +1,6 @@
 %day-block {
   flex: 1;
-  padding: rem-calc(5) 0;
+  padding: rem-calc(7) 0;
   min-width: rem-calc(30);
   border: { right: 1px solid #ddd; bottom: 1px solid #ddd; }
   text-align: center;
@@ -16,6 +16,11 @@
     &:hover {
       background: rgba($orange, 0.6);
       cursor: pointer;
+    }
+
+    &--selected {
+      @extend %day-block;
+      background: rgba($orange, 0.6);
     }
 
     &--disabled {
