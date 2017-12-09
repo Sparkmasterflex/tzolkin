@@ -5,7 +5,8 @@
   }
 
   &-timepicker,
-  &-datepicker {
+  &-datepicker,
+  &-datetimepicker {
     position: absolute;
     top: rem-calc(30);
     left: 0;
@@ -23,7 +24,19 @@
     padding: 0 rem-calc(3);
   }
 
+  &-datetimepicker {
+    display: flex;
+    .tzolkin-timepicker {
+      position: relative;
+      top: initial;
+      left: initial;
+      background: transparent;
+      border: none;
+    }
+  }
+
   &-month {
+    margin-top: rem-calc(4);
     border: 1px solid #ccc;
   }
 

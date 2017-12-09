@@ -8,6 +8,7 @@ clone  = require('lodash/lang/clone')
 
 DatePicker = require('./pickers/date_picker')
 TimePicker = require('./pickers/time_picker')
+DateTimePicker = require('./pickers/datetime_picker')
 
 { ALLOWED_TYPES } = require('../constants')
 
@@ -57,9 +58,9 @@ class Tzolkin extends React.Component
     switch this.state.type
       when 'date'     then this.render_datepicker()
       when 'time'     then this.render_timepicker()
+      when 'datetime' then this.render_datetimepicker()
       else
-        <div>nothing</div>
-     # when 'datetime' then DateTimePicker
+        <div>Invalid input type</div>
 
   render_datepicker: ->
     <DatePicker
@@ -73,6 +74,15 @@ class Tzolkin extends React.Component
     <TimePicker
       selected={this.state.selected}
       format={this.state.format}
+      set_date={this.set_date}
+    />
+
+  render_datetimepicker: ->
+    <DateTimePicker
+      selected={this.state.selected}
+      format={this.state.format}
+      switch_month={this.switch_month}
+      switch_year={this.switch_year}
       set_date={this.set_date}
     />
 
@@ -99,11 +109,11 @@ class Tzolkin extends React.Component
 
     this.setState {selected: selected}
 
-  set_date: (d) =>
+  set_date: (d, show=false) =>
     this.refs.tzolkin_input.value = d.format(this.state.format)
     @setState
       selected: d
-      show: false
+      show: show
 
   ###==================
          EVENTS
