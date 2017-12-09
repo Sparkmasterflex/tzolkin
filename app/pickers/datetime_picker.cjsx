@@ -12,7 +12,6 @@ class DateTimePicker extends React.Component
 
   constructor: (props) ->
     super(props)
-    console.log props.selected
     this.state =
       date: null
       time: null
@@ -47,16 +46,27 @@ class DateTimePicker extends React.Component
         set_date={@set_date}
       />
 
+  concat_selected: (val, part) ->
+    if part is 'time'
+      time = val.format("HH:mm")
+      date = this.state.date or this.props.selected.format("YYYY-MM-DD")
+    else
+      date = val.format("YYYY-MM-DD")
+      time = this.state.time or this.props.selected.format("HH:mm")
+
+    moment("#{date} #{time}")
+
+
   ###==================
          EVENTS
   ==================###
   set_date: (date) =>
     @setState {date: date.format("YYYY-MM-DD")}, =>
-      @props.set_date(date, !@state.time?)
+      @props.set_date(@concat_selected(date, 'date'), !@state.time?)
 
   set_time: (time) =>
     @setState {time: time.format("HH:mm")}, =>
-      @props.set_date(time, !@state.date?)
+      @props.set_date(@concat_selected(time, 'time'), !@state.date?)
 
 
 module.exports = DateTimePicker
