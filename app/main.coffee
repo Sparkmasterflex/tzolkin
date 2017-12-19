@@ -2,5 +2,11 @@ Tzolkin  = require './app'
 
 div = document.querySelector('.date-picker')
 
-Tzolkin.create {label: 'Date', type: 'date', default: "2017-11-21"}, div
+configs =
+  label: 'Date and Time'
+  type: 'datetime'
+  name: 'start_date'
+
+
+Tzolkin.create configs, div
 

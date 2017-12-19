@@ -34,6 +34,7 @@ class Tzolkin extends React.Component
       label: null
       html_id: "tzolkin-#{type}"
       type: type
+      name: type
       default: moment().format("YYYY-MM-DD HH:mm:ss")
       format: format
     }
@@ -47,6 +48,7 @@ class Tzolkin extends React.Component
         ref='tzolkin_input'
         id={this.state.html_id}
         type='text'
+        name={this.state.name}
         defaultValue={this.state.selected?.format(this.state.format)}
         onFocus={this.display_picker}
       />
