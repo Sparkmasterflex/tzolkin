@@ -17,7 +17,7 @@ class TimePicker extends React.Component
 
   componentDidMount: ->
     this.setState
-      top: document.querySelector('.tzolkin-selected').offsetTop*-1
+      top: this.set_top()
 
   render: ->
     <div className="tzolkin-timepicker">
@@ -66,6 +66,18 @@ class TimePicker extends React.Component
       arr.unshift(12)
       [arr, arr]
 
+  set_top: ->
+    desired_top = document.querySelector('.tzolkin-selected').offsetTop
+    pos = if desired_top < this.max_height()
+    then desired_top
+    else this.max_height()
+    pos*-1
+
+  max_height: ->
+    container_height = document.querySelector('.tzolkin-timelist').offsetHeight
+    list_height      = document.querySelector('.tzolkin-timelist-ul').offsetHeight
+    list_height - container_height
+
   ###==================
          EVENTS
   ==================###
@@ -78,7 +90,9 @@ class TimePicker extends React.Component
   scroll_down: (e) =>
     e.preventDefault()
     top = @state.top
-    @setState { top: top-SCROLL_JUMP }
+    new_top = top-SCROLL_JUMP
+    new_top = @max_height()*-1 if new_top < @max_height()*-1
+    @setState { top: new_top }
 
   select_time: (e) =>
     today = moment().format("YYYY-MM-DD")
