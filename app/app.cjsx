@@ -31,27 +31,18 @@ class Tzolkin extends React.Component
       when 'time'     then "h:mma"
 
     {
-      label: null
-      html_id: "tzolkin-#{type}"
       type: type
-      name: type
       default: moment().format("YYYY-MM-DD HH:mm:ss")
       format: format
     }
 
+  componentWillMount: ->
+    this.input().addEventListener 'focus', this.display_picker
+
   render: ->
     errors = this.render_errors() if this.invalid_type()
-    <div className='tzolkin-container'>
+    <div ref='tzolkin-picker'>
       {errors}
-      <label htmlFor={this.state.html_id}>{this.state.label or this.state.type}</label>
-      <input
-        ref='tzolkin_input'
-        id={this.state.html_id}
-        type='text'
-        name={this.state.name}
-        defaultValue={this.state.selected?.format(this.state.format)}
-        onFocus={this.display_picker}
-      />
       {this.render_picker()}
     </div>
 
@@ -91,6 +82,7 @@ class Tzolkin extends React.Component
   render_errors: ->
     map this.errors, (err,key) -> <p key="error-#{key}">{err}</p>
 
+
   invalid_type: ->
     valid = ALLOWED_TYPES.indexOf(this.props.type) >= 0
     this.errors.invalid = "Invalid HTML input type. Allowed: #{ALLOWED_TYPES.join(', ')}" unless valid
@@ -112,10 +104,12 @@ class Tzolkin extends React.Component
     this.setState {selected: selected}
 
   set_date: (d, show=false) =>
-    this.refs.tzolkin_input.value = d.format(this.state.format)
+    this.input().value = d.format(this.state.format)
     @setState
       selected: d
       show: show
+
+  input: -> document.querySelector(this.state.input)
 
   ###==================
          EVENTS
@@ -125,6 +119,9 @@ class Tzolkin extends React.Component
 
 
 module.exports = {
-  create: (config, node) ->
-    ReactDOM.render <Tzolkin {...config} />, node
+  create: (config) ->
+    calendar = document.createElement('div')
+    calendar.className = "tzolkin"
+    document.body.appendChild calendar
+    ReactDOM.render <Tzolkin {...config} />, calendar
 }
