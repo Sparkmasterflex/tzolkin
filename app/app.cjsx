@@ -2,7 +2,7 @@ React    = require "react"
 ReactDOM = require 'react-dom'
 moment   = require "moment"
 
-map    = require('lodash/collection/map')
+{ map, each } = require('lodash/collection')
 extend = require('lodash/object/extend')
 clone  = require('lodash/lang/clone')
 
@@ -37,7 +37,9 @@ class Tzolkin extends React.Component
     }
 
   componentWillMount: ->
-    this.input().addEventListener 'focus', this.display_picker
+    triggers = this.props.trigger or [this.props.input]
+    each triggers, (tr) =>
+      document.querySelector(tr).addEventListener 'click', this.display_picker
 
   render: ->
     errors = this.render_errors() if this.invalid_type()
@@ -125,7 +127,9 @@ class Tzolkin extends React.Component
   ###==================
          EVENTS
   ==================###
-  display_picker: (e) => @setState { show: !@state.show }
+  display_picker: (e) =>
+    e.preventDefault()
+    @setState { show: !@state.show }
 
 
 
