@@ -17,7 +17,7 @@ class DateTimePicker extends React.Component
       time: null
 
   render: ->
-    <div className="tzolkin-datetimepicker">
+    <div className="tzolkin-datetimepicker" style={this.props.styles}>
       <Calendar
         date={this.props.selected}
         switch_month={this.props.switch_month}

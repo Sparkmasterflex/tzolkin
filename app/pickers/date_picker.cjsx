@@ -9,7 +9,7 @@ class DatePicker extends React.Component
   displayName: "DatePicker"
 
   render: ->
-    <div className="tzolkin-datepicker">
+    <div className="tzolkin-datepicker" style={this.props.styles}>
       <Calendar
         date={this.props.selected}
         switch_month={this.props.switch_month}
@@ -25,9 +25,10 @@ class DatePicker extends React.Component
     weeks     = Math.floor(date.daysInMonth()/7)
     map [0..weeks], (w) =>
       <Week
+        key="week-#{w}"
         week_num={w}
         first_day={first_day.format("YYYY-MM-DD")}
-        key="week-#{w}"
+        selected={@props.selected}
         set_date={@props.set_date}
       />
 

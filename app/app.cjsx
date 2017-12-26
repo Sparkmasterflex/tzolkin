@@ -61,6 +61,7 @@ class Tzolkin extends React.Component
       switch_month={this.switch_month}
       switch_year={this.switch_year}
       set_date={this.set_date}
+      styles={this.calculate_position()}
     />
 
   render_timepicker: ->
@@ -68,6 +69,7 @@ class Tzolkin extends React.Component
       selected={this.state.selected}
       format={this.state.format}
       set_date={this.set_date}
+      styles={this.calculate_position()}
     />
 
   render_datetimepicker: ->
@@ -77,10 +79,19 @@ class Tzolkin extends React.Component
       switch_month={this.switch_month}
       switch_year={this.switch_year}
       set_date={this.set_date}
+      styles={this.calculate_position()}
     />
 
   render_errors: ->
     map this.errors, (err,key) -> <p key="error-#{key}">{err}</p>
+
+  calculate_position: ->
+    {x, y, height} = this.input().getBoundingClientRect()
+
+    {
+      top: "#{(y+height) + 5}px"
+      left: "#{x}px"
+    }
 
 
   invalid_type: ->

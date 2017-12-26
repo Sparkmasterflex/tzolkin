@@ -20,7 +20,7 @@ class TimePicker extends React.Component
       top: this.set_top()
 
   render: ->
-    <div className="tzolkin-timepicker">
+    <div className="tzolkin-timepicker" style={this.props.styles}>
       <a href='#up' className='tzolkin-time__scroll tzicon tzup' onClick={this.scroll_up} />
       {this.render_hours()}
       <a href='#up' className='tzolkin-time__scroll tzicon tzdown' onClick={this.scroll_down} />
