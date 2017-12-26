@@ -1,6 +1,6 @@
 {
   "name": "tzolkin",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "React date/time picker using moment.js",
   "main": "index.js",
   "scripts": {
