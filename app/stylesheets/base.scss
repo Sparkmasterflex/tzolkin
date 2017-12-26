@@ -1,15 +1,10 @@
 .tzolkin {
-  &-container {
-    position: relative;
-    display: inline-block;
-  }
-
   &-timepicker,
   &-datepicker,
   &-datetimepicker {
     position: absolute;
-    top: rem-calc(30);
-    left: 0;
+    z-index: 1000;
+    padding: $half;
     background: $off-white;
     border: 1px solid $light-grey;
   }
