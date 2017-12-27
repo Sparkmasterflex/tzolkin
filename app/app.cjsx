@@ -30,16 +30,23 @@ class Tzolkin extends React.Component
       when 'datetime' then "MM/DD/YYYY h:mma"
       when 'time'     then "h:mma"
 
+    date = moment(this.input().value, format) or moment()
+
     {
       type: type
-      default: moment().format("YYYY-MM-DD HH:mm:ss")
+      default: date.format("YYYY-MM-DD HH:mm:ss")
       format: format
     }
 
   componentWillMount: ->
-    triggers = this.props.trigger or [this.props.input]
-    each triggers, (tr) =>
-      document.querySelector(tr).addEventListener 'click', this.display_picker
+    element = (el) ->
+      return el unless typeof el is 'string'
+      document.querySelector(el)
+
+    element(this.props.input).addEventListener 'click', this.display_picker
+    if this.props.trigger?
+      element(this.props.trigger).addEventListener 'click', this.display_picker
+
 
   render: ->
     errors = this.render_errors() if this.invalid_type()
@@ -91,10 +98,9 @@ class Tzolkin extends React.Component
     {x, y, height} = this.input().getBoundingClientRect()
 
     {
-      top: "#{(y+height) + 5}px"
-      left: "#{x}px"
+      top: "#{(y+height) + window.scrollY + 5}px"
+      left: "#{x + window.scrollX}px"
     }
-
 
   invalid_type: ->
     valid = ALLOWED_TYPES.indexOf(this.props.type) >= 0
@@ -122,7 +128,9 @@ class Tzolkin extends React.Component
       selected: d
       show: show
 
-  input: -> document.querySelector(this.state.input)
+  input: ->
+    return this.props.input unless typeof this.props.input is 'string'
+    document.querySelector(this.props.input)
 
   ###==================
          EVENTS
