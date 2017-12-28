@@ -5,7 +5,7 @@ moment = require("moment")
 Calendar = require('../components/calendar')
 Week = require('../components/week')
 
-SCROLL_JUMP = 116
+SCROLL_JUMP = 145
 
 class TimePicker extends React.Component
   displayName: "TimePicker"
@@ -84,8 +84,9 @@ class TimePicker extends React.Component
   scroll_up: (e) =>
     e.preventDefault()
     top = @state.top
-    return if top is 0
-    @setState { top: top+SCROLL_JUMP }
+    new_value = top+SCROLL_JUMP
+    new_value = 0 if new_value >= 0
+    @setState { top: new_value }
 
   scroll_down: (e) =>
     e.preventDefault()
