@@ -22,7 +22,7 @@ class Tzolkin extends React.Component
     super(props)
     configs = extend this.defaults(props?.type), props
     this.errors = {}
-    this.state = extend { show: false, selected: moment(configs.default) }, configs
+    this.state = extend { show: false }, configs
 
   defaults: (type='date') ->
     format = switch type
@@ -35,6 +35,7 @@ class Tzolkin extends React.Component
     {
       type: type
       default: date.format("YYYY-MM-DD HH:mm:ss")
+      selected: date
       format: format
     }
 
@@ -46,7 +47,6 @@ class Tzolkin extends React.Component
     element(this.props.input).addEventListener 'click', this.display_picker
     if this.props.trigger?
       element(this.props.trigger).addEventListener 'click', this.display_picker
-
 
   render: ->
     errors = this.render_errors() if this.invalid_type()
@@ -65,34 +65,36 @@ class Tzolkin extends React.Component
         <div>Invalid input type</div>
 
   render_datepicker: ->
-    <DatePicker
-      selected={this.state.selected}
-      switch_month={this.switch_month}
-      switch_year={this.switch_year}
-      set_date={this.set_date}
-      styles={this.calculate_position()}
-    />
+    props = this.picker_props(
+      switch_month: this.switch_month
+      switch_year: this.switch_year
+    )
+
+    <DatePicker {...props} />
 
   render_timepicker: ->
-    <TimePicker
-      selected={this.state.selected}
-      format={this.state.format}
-      set_date={this.set_date}
-      styles={this.calculate_position()}
-    />
+    <TimePicker {...this.picker_props()} />
 
   render_datetimepicker: ->
-    <DateTimePicker
-      selected={this.state.selected}
-      format={this.state.format}
-      switch_month={this.switch_month}
-      switch_year={this.switch_year}
-      set_date={this.set_date}
-      styles={this.calculate_position()}
-    />
+    props = this.picker_props
+      switch_month: this.switch_month
+      switch_year: this.switch_year
+
+    <DateTimePicker {...props} />
 
   render_errors: ->
     map this.errors, (err,key) -> <p key="error-#{key}">{err}</p>
+
+  picker_props: (add={}) ->
+    extend {
+      selected: this.state.selected
+      format: this.state.format
+      set_date: this.set_date
+      styles: this.calculate_position()
+      on_open: this.on_open
+      on_select: this.on_select
+      on_close: this.on_close
+    }, add
 
   calculate_position: ->
     {x, y, height} = this.input().getBoundingClientRect()
@@ -124,13 +126,25 @@ class Tzolkin extends React.Component
 
   set_date: (d, show=false) =>
     this.input().value = d.format(this.state.format)
-    @setState
-      selected: d
-      show: show
+    node = ReactDOM.findDOMNode(@)
+
+    @setState {selected: d, show: show}
 
   input: ->
     return this.props.input unless typeof this.props.input is 'string'
     document.querySelector(this.props.input)
+
+  ###==================
+        CALLBACKS
+  ==================###
+  on_open: (node) =>
+    @props.onOpen?(@state.selected.format(@state.format), node, @input())
+
+  on_select: (node) =>
+    @props.onSelect?(@state.selected.format(@state.format), node, @input())
+
+  on_close: (node) =>
+    @props.onClose?(@state.selected.format(@state.format), node, @input())
 
   ###==================
          EVENTS
