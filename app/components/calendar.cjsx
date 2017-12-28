@@ -15,11 +15,13 @@ class Calendar extends React.Component
 
         <Selector
           selected={moment(this.props.date).format("MMMM")}
+          list='month'
           options={moment.months()}
           change_selection={this.select_month}
         />
         <Selector
           selected={moment(this.props.date).format("YYYY")}
+          list='year'
           options={[(current_year-2)..(current_year+5)]}
           change_selection={this.select_year}
         />

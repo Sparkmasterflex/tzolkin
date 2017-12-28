@@ -37,20 +37,28 @@
 
   &-selector {
     position: relative;
-    flex: 1;
     margin: 0 $half;
+    text-align: center;
+
+    &--month,
+    &--year { @extend .tzolkin-selector; }
+
+    &--month { flex: 2; }
+
+    &--year  { flex: 1; }
 
     &__dropdown {
       position: absolute;
       top: $basic;
       left: 0;
       z-index: 100;
+      min-width: rem-calc(65);
       background: #fff;
       border: 1px solid #eee;
       padding: $quarter;
 
       li {
-        padding: rem-calc(3) $quarter;
+        padding: $quarter;
         border-bottom: 1px solid #eee;
         cursor: pointer;
 

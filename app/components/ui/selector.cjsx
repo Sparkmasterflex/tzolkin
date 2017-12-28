@@ -10,8 +10,10 @@ class Selector extends React.Component
     this.state = { show: false }
 
   render: ->
-    <div className='tzolkin-selector'>
-      <a href="#select" onClick={this.toggle}>{this.props.selected}</a>
+    klass  = "tzolkin-selector"
+    klass += "--#{this.props.list}" if this.props.list?
+    <div className={klass}>
+      <a href="#select" className='tzicon--with tzdown--after' onClick={this.toggle}>{this.props.selected}</a>
       {this.render_select()}
     </div>
 

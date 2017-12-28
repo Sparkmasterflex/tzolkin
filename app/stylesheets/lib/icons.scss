@@ -19,5 +19,6 @@
 
 .tzprevious:before { content: "\f0d9"; }
 .tznext:after      { content: "\f0da"; }
+.tzdown--after:after,
 .tzdown:before     { content: "\f0d7"; }
 .tzup:before       { content: "\f0d8"; }
