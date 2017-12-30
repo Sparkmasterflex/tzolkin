@@ -87,13 +87,12 @@ class Tzolkin extends React.Component
 
   picker_props: (add={}) ->
     extend {
-      selected: this.state.selected
-      format: this.state.format
-      set_date: this.set_date
-      styles: this.calculate_position()
-      on_open: this.on_open
-      on_select: this.on_select
-      on_close: this.on_close
+      selected:  this.state.selected
+      format:    this.state.format
+      set_date:  this.set_date
+      styles:    this.calculate_position()
+      on_open:   this.on_open
+      on_close:  this.on_close
     }, add
 
   calculate_position: ->
@@ -124,10 +123,9 @@ class Tzolkin extends React.Component
 
     this.setState {selected: selected}
 
-  set_date: (d, show=false) =>
+  set_date: (d, show=false, node) =>
     this.input().value = d.format(this.state.format)
-    node = ReactDOM.findDOMNode(@)
-
+    @on_select(node)
     @setState {selected: d, show: show}
 
   input: ->

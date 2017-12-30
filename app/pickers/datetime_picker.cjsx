@@ -1,8 +1,8 @@
-React = require("react")
+React    = require("react")
 ReactDOM = require 'react-dom'
-moment = require("moment")
-map   = require('lodash/collection/map')
-clone = require('lodash/lang/clone')
+moment   = require("moment")
+map      = require('lodash/collection/map')
+clone    = require('lodash/lang/clone')
 
 Calendar   = require('../components/calendar')
 Week       = require('../components/week')
@@ -21,8 +21,7 @@ class DateTimePicker extends React.Component
     this.node = ReactDOM.findDOMNode(this)
     this.props.on_open this.node
 
-  componentWillUnmount: ->
-    this.props.on_close this.node
+  componentWillUnmount: -> this.props.on_close this.node
 
   render: ->
     <div className="tzolkin-datetimepicker" style={this.props.styles}>
@@ -74,7 +73,6 @@ class DateTimePicker extends React.Component
 
   set_time: (time) =>
     @setState {time: time.format("HH:mm")}, =>
-      @props.on_select(this.node)
       @props.set_date(@concat_selected(time, 'time'), !@state.date?, this.node)
 
 

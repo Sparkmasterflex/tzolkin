@@ -1,5 +1,6 @@
-React = require("react")
-moment = require("moment")
+React    = require("react")
+ReactDOM = require 'react-dom'
+moment   = require("moment")
 { each, map } = require('lodash/collection')
 
 Calendar = require('../components/calendar')
@@ -16,8 +17,13 @@ class TimePicker extends React.Component
       top: 0
 
   componentDidMount: ->
+    this.node = ReactDOM.findDOMNode(this)
+    this.props.on_open?(this.node)
+
     this.setState
       top: this.set_top()
+
+  componentWillUnmount: -> this.props.on_close this.node
 
   render: ->
     <div className="tzolkin-timepicker" style={this.props.styles}>
@@ -97,6 +103,6 @@ class TimePicker extends React.Component
 
   select_time: (e) =>
     today = moment().format("YYYY-MM-DD")
-    @props.set_date moment("#{today} #{e.target.dataset.time}")
+    @props.set_date moment("#{today} #{e.target.dataset.time}"), null, this.node
 
 module.exports = TimePicker

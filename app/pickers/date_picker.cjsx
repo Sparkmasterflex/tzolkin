@@ -1,12 +1,19 @@
-React = require("react")
-moment = require("moment")
-map = require('lodash/collection/map')
+React    = require("react")
+ReactDOM = require 'react-dom'
+moment   = require("moment")
+map      = require('lodash/collection/map')
 
 Calendar = require('../components/calendar')
-Week = require('../components/week')
+Week     = require('../components/week')
 
 class DatePicker extends React.Component
   displayName: "DatePicker"
+
+  componentDidMount: ->
+    this.node = ReactDOM.findDOMNode(this)
+    this.props.on_open this.node
+
+  componentWillUnmount: -> this.props.on_close this.node
 
   render: ->
     <div className="tzolkin-datepicker" style={this.props.styles}>
@@ -29,9 +36,10 @@ class DatePicker extends React.Component
         week_num={w}
         first_day={first_day.format("YYYY-MM-DD")}
         selected={@props.selected}
-        set_date={@props.set_date}
+        set_date={@set_date}
       />
 
-
+  set_date: (date, show) =>
+    @props.set_date(date, show, @node)
 
 module.exports = DatePicker
