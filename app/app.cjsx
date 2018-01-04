@@ -10,7 +10,11 @@ DatePicker = require('./pickers/date_picker')
 TimePicker = require('./pickers/time_picker')
 DateTimePicker = require('./pickers/datetime_picker')
 
-{ ALLOWED_TYPES } = require('../constants')
+{
+  ALLOWED_TYPES,
+  PICKER_HEIGHT,
+  PICKER_WIDTHS
+} = require('../constants')
 
 css = require("./stylesheets")
 
@@ -96,12 +100,16 @@ class Tzolkin extends React.Component
     }, add
 
   calculate_position: ->
-    {x, y, height} = this.input().getBoundingClientRect()
+    {x, y, width, height} = this.input().getBoundingClientRect()
+    height += 5 # padding
 
-    {
-      top: "#{(y+height) + window.scrollY + 5}px"
-      left: "#{x + window.scrollX}px"
-    }
+    top  = (y+height) + window.scrollY
+    left = x + window.scrollX
+
+    top = top - (PICKER_HEIGHT + height) if (PICKER_HEIGHT + top) >= window.innerHeight
+    left = (x + width) - PICKER_WIDTHS[this.props.type] if left + PICKER_WIDTHS[this.props.type] >= window.innerWidth
+
+    { top: "#{top}px", left: "#{left}px" }
 
   invalid_type: ->
     valid = ALLOWED_TYPES.indexOf(this.props.type) >= 0
