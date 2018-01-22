@@ -22,7 +22,7 @@ class Calendar extends React.Component
         <Selector
           selected={moment(this.props.date).format("YYYY")}
           list='year'
-          options={[(current_year-2)..(current_year+5)]}
+          options={[this.props.min_date.year()..this.props.max_date.year()]}
           change_selection={this.select_year}
         />
 

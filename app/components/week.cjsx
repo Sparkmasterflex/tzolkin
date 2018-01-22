@@ -17,10 +17,14 @@ class Week extends React.Component
           key="day-#{week_num}-#{d}"
           day={day}
           selected={day.format("YYYY-MM-DD") is @props.selected.format("YYYY-MM-DD")}
-          enabled={which_day.month() is day.month()}
+          enabled={@is_enabled(which_day.month(), day)}
           set_date={@props.set_date}
         />
       }
     </div>
+
+  is_enabled: (curr_month, day) ->
+    return false unless curr_month is day.month()
+    this.props.min_date <= day <= this.props.max_date
 
 module.exports = Week

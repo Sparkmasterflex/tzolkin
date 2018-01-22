@@ -24,8 +24,17 @@ class Tzolkin extends React.Component
 
   constructor: (props) ->
     super(props)
-    configs = extend this.defaults(props?.type), props
+    unclean_props = clone(props)
+    {minDate, maxDate} = unclean_props
+    delete unclean_props.minDate
+    delete unclean_props.maxDate
+
+    configs = extend this.defaults(props?.type), unclean_props
+    min = moment(minDate, configs.format, true) if minDate?
+    max = moment(maxDate, configs.format, true) if maxDate?
     this.errors = {}
+    configs.min_date = min if min?.isValid()
+    configs.max_date = max if max?.isValid()
     this.state = extend { show: false }, configs
 
   defaults: (type='date') ->
@@ -40,6 +49,8 @@ class Tzolkin extends React.Component
       type: type
       default: date.format("YYYY-MM-DD HH:mm:ss")
       selected: date
+      min_date: moment({month: '0', day: '01'}).subtract(2, 'y')
+      max_date: moment({month: '11', day: '31'}).add(2, 'y')
       format: format
     }
 
@@ -53,9 +64,7 @@ class Tzolkin extends React.Component
       element(this.props.trigger).addEventListener 'click', this.display_picker
 
   render: ->
-    errors = this.render_errors() if this.invalid_type()
     <div ref='tzolkin-picker'>
-      {errors}
       {this.render_picker()}
     </div>
 
@@ -72,6 +81,8 @@ class Tzolkin extends React.Component
     props = this.picker_props(
       switch_month: this.switch_month
       switch_year: this.switch_year
+      min_date: this.state.min_date
+      max_date: this.state.max_date
     )
 
     <DatePicker {...props} />
@@ -85,9 +96,6 @@ class Tzolkin extends React.Component
       switch_year: this.switch_year
 
     <DateTimePicker {...props} />
-
-  render_errors: ->
-    map this.errors, (err,key) -> <p key="error-#{key}">{err}</p>
 
   picker_props: (add={}) ->
     extend {

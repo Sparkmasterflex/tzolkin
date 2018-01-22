@@ -21,6 +21,8 @@ class DatePicker extends React.Component
         date={this.props.selected}
         switch_month={this.props.switch_month}
         switch_year={this.props.switch_year}
+        min_date={this.props.min_date}
+        max_date={this.props.max_date}
       >
         {this.render_weeks()}
       </Calendar>
@@ -36,6 +38,8 @@ class DatePicker extends React.Component
         week_num={w}
         first_day={first_day.format("YYYY-MM-DD")}
         selected={@props.selected}
+        min_date={@props.min_date}
+        max_date={@props.max_date}
         set_date={@set_date}
       />
 
