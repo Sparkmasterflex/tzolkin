@@ -21,7 +21,7 @@ class DateTimePicker extends React.Component
     this.node = ReactDOM.findDOMNode(this)
     this.props.on_open this.node
 
-  componentWillUnmount: -> this.props.on_close this.node
+  componentWillUnmount: -> this.props.on_close?(this.node)
 
   render: ->
     <div className="tzolkin-datetimepicker" style={this.props.styles}>
@@ -29,6 +29,8 @@ class DateTimePicker extends React.Component
         date={this.props.selected}
         switch_month={this.props.switch_month}
         switch_year={this.props.switch_year}
+        min_date={this.props.min_date}
+        max_date={this.props.max_date}
       >
         {this.render_weeks()}
       </Calendar>
@@ -50,6 +52,8 @@ class DateTimePicker extends React.Component
         first_day={first_day.format("YYYY-MM-DD")}
         key="week-#{w}"
         selected={this.props.selected}
+        min_date={@props.min_date}
+        max_date={@props.max_date}
         set_date={@set_date}
       />
 

@@ -23,7 +23,7 @@ class TimePicker extends React.Component
     this.setState
       top: this.set_top()
 
-  componentWillUnmount: -> this.props.on_close this.node
+  componentWillUnmount: -> this.props.on_close?(this.node)
 
   render: ->
     <div className="tzolkin-timepicker" style={this.props.styles}>
