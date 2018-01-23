@@ -8,7 +8,6 @@ class Calendar extends React.Component
   displayName: "Calendar"
 
   render: ->
-    current_year = moment().year()
     <div className='tzolkin-calendar__container'>
       <div className='tzolkin-calendar__controls'>
         <a href='#prev-month' className='tzolkin-calendar__nav tzicon tzprevious' onClick={this.previous_month}></a>
