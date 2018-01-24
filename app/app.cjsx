@@ -30,8 +30,8 @@ class Tzolkin extends React.Component
     delete unclean_props.maxDate
 
     configs = extend this.defaults(props?.type), unclean_props
-    min = moment(minDate, configs.format, true) if minDate?
-    max = moment(maxDate, configs.format, true) if maxDate?
+    min = moment(minDate, configs.format, unclean_props.type is "date") if minDate?
+    max = moment(maxDate, configs.format, unclean_props.type is "date") if maxDate?
     configs.min_date = min if min?.isValid()
     configs.max_date = max if max?.isValid()
     this.state = extend { show: false }, configs
