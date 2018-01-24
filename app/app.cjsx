@@ -77,34 +77,32 @@ class Tzolkin extends React.Component
         <div>Invalid input type</div>
 
   render_datepicker: ->
-    props = this.picker_props(
-      switch_month: this.switch_month
-      switch_year: this.switch_year
-      min_date: this.state.min_date
-      max_date: this.state.max_date
-    )
-
-    <DatePicker {...props} />
+    <DatePicker {...this.datepicker_props()} />
 
   render_timepicker: ->
     <TimePicker {...this.picker_props()} />
 
   render_datetimepicker: ->
-    props = this.picker_props
-      switch_month: this.switch_month
-      switch_year: this.switch_year
+    <DateTimePicker {...this.datepicker_props()} />
 
-    <DateTimePicker {...props} />
-
-  picker_props: (add={}) ->
-    extend {
+  picker_props: ->
+    {
       selected:  this.state.selected
       format:    this.state.format
       set_date:  this.set_date
       styles:    this.calculate_position()
       on_open:   this.on_open
       on_close:  this.on_close
-    }, add
+    }
+
+  datepicker_props: ->
+    extend {
+      switch_month: this.switch_month
+      switch_year: this.switch_year
+      min_date: this.state.min_date
+      max_date: this.state.max_date
+    }, this.picker_props()
+
 
   calculate_position: ->
     {x, y, width, height} = this.input().getBoundingClientRect()
