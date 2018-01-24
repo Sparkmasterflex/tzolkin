@@ -32,7 +32,6 @@ class Tzolkin extends React.Component
     configs = extend this.defaults(props?.type), unclean_props
     min = moment(minDate, configs.format, true) if minDate?
     max = moment(maxDate, configs.format, true) if maxDate?
-    this.errors = {}
     configs.min_date = min if min?.isValid()
     configs.max_date = max if max?.isValid()
     this.state = extend { show: false }, configs
@@ -118,11 +117,6 @@ class Tzolkin extends React.Component
     left = (x + width) - PICKER_WIDTHS[this.props.type] if left + PICKER_WIDTHS[this.props.type] >= window.innerWidth
 
     { top: "#{top}px", left: "#{left}px" }
-
-  invalid_type: ->
-    valid = ALLOWED_TYPES.indexOf(this.props.type) >= 0
-    this.errors.invalid = "Invalid HTML input type. Allowed: #{ALLOWED_TYPES.join(', ')}" unless valid
-    !valid
 
   switch_month: (direction, num) =>
     @switch_to('month', direction, num)
