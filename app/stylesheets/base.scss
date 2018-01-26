@@ -62,6 +62,8 @@
         border-bottom: 1px solid #eee;
         cursor: pointer;
 
+        &.disabled { @include disabled-state; }
+
         &:last-child { border-bottom: none; }
 
         &:hover {

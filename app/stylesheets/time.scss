@@ -19,6 +19,8 @@
         border-bottom: 1px solid $light-grey;
         cursor: pointer;
 
+        &.disabled { @include disabled-state; }
+
         &.tzolkin-selected,
         &:hover { background: rgba($orange, 0.4); }
 
