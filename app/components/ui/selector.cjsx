@@ -26,7 +26,10 @@ class Selector extends React.Component
     return "" unless this.state.show
     <ul className='tzolkin-selector__dropdown' style={this.calculate_position()}>
       {map this.props.options, (opt) =>
-        <li key="option-#{opt}" data-value={opt} onClick={@select}>{opt}</li>
+        disabled = @props.disabler.is_disabled(opt, this.props.list)
+        on_click = if !disabled then @select else null
+        klass = 'disabled' if disabled
+        <li key="option-#{opt}" className={klass} data-value={opt} onClick={on_click}>{opt}</li>
       }
     </ul>
 

@@ -10,6 +10,8 @@ DatePicker = require('./pickers/date_picker')
 TimePicker = require('./pickers/time_picker')
 DateTimePicker = require('./pickers/datetime_picker')
 
+Disabler = require('./lib/disabler')
+
 {
   ALLOWED_TYPES,
   PICKER_HEIGHT,
@@ -24,6 +26,7 @@ class Tzolkin extends React.Component
 
   constructor: (props) ->
     super(props)
+    this.disabler = new Disabler(this.props.disable)
     unclean_props = clone(props)
     {minDate, maxDate} = unclean_props
     delete unclean_props.minDate
@@ -87,12 +90,13 @@ class Tzolkin extends React.Component
 
   picker_props: ->
     {
-      selected:  this.state.selected
-      format:    this.state.format
-      set_date:  this.set_date
-      styles:    this.calculate_position()
-      on_open:   this.on_open
-      on_close:  this.on_close
+      selected: this.state.selected
+      format:   this.state.format
+      set_date: this.set_date
+      styles:   this.calculate_position()
+      on_open:  this.on_open
+      on_close: this.on_close
+      disabler: this.disabler
     }
 
   datepicker_props: ->

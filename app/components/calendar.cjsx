@@ -17,12 +17,14 @@ class Calendar extends React.Component
           list='month'
           options={moment.months()}
           change_selection={this.select_month}
+          disabler={this.props.disabler}
         />
         <Selector
           selected={moment(this.props.date).format("YYYY")}
           list='year'
           options={[this.props.min_date.year()..this.props.max_date.year()]}
           change_selection={this.select_year}
+          disabler={this.props.disabler}
         />
 
         <a href='#next-month' className='tzolkin-calendar__nav tzicon tznext' onClick={this.next_month}></a>

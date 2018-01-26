@@ -25,6 +25,7 @@ class Week extends React.Component
 
   is_enabled: (curr_month, day) ->
     return false unless curr_month is day.month()
+    return false if this.props.disabler.is_disabled(day)
     this.props.min_date <= day <= this.props.max_date
 
 module.exports = Week

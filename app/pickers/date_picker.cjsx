@@ -23,6 +23,7 @@ class DatePicker extends React.Component
         switch_year={this.props.switch_year}
         min_date={this.props.min_date}
         max_date={this.props.max_date}
+        disabler={this.props.disabler}
       >
         {this.render_weeks()}
       </Calendar>
@@ -40,6 +41,7 @@ class DatePicker extends React.Component
         selected={@props.selected}
         min_date={@props.min_date}
         max_date={@props.max_date}
+        disabler={this.props.disabler}
         set_date={@set_date}
       />
 

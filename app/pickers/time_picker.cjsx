@@ -55,7 +55,9 @@ class TimePicker extends React.Component
     hour_24 = if ampm? and ampm is 'pm' then hour+12 else hour
     is_current_hour = hour_24 is this.props.selected.hour()
     is_closest_minute = this.props.selected.minute()-15 < parseInt(minute) <= this.props.selected.minute()
-    klass = "tzolkin-selected" if is_current_hour and is_closest_minute
+    klass = ""
+    klass += "tzolkin-selected" if is_current_hour and is_closest_minute
+    klass += " disabled" if this.props.disabler.is_disabled(hour_24, 'hour')
 
     <li
       onClick={this.select_time}
