@@ -10,16 +10,18 @@ flatten = require('lodash/array/flatten')
 
 class Disabler
   constructor: (disable) ->
-    this.configs = disable
-    {
-      @days,
-      @dates,
-      @months,
-      @years,
-      @hours
-    } = this.configs
+    if disable?
+      this.configs = disable
+      {
+        @days,
+        @dates,
+        @months,
+        @years,
+        @hours
+      } = this.configs
 
   is_disabled: (to_check, type=null) ->
+    return false unless this.configs?
     switch type
       when 'month' then this.disabled_month(to_check)
       when 'year'  then this.disabled_year(to_check)
@@ -28,6 +30,7 @@ class Disabler
         this.disabled_date(to_check)
 
   disabled_date: (dt) ->
+    return false unless this.configs?
     disabled_list = []
     disable = {}
     each keys(this.configs), (type) =>
@@ -48,6 +51,7 @@ class Disabler
     false
 
   disabled_hour: (hour) ->
+    return false unless this.configs?
     today = moment().format("YYYY-MM-DD")
     matched_hour = find this.configs.hours, (h) =>
       return null if @used
@@ -57,10 +61,12 @@ class Disabler
     matched_hour?
 
   disabled_month: (month) ->
+    return false unless this.configs?
     matched_month = find this.configs.months, (m) -> m is month
     matched_month?
 
   disabled_year: (year) ->
+    return false unless this.configs?
     matched_year = find this.configs.years, (y) -> y is year
     matched_year?
 
