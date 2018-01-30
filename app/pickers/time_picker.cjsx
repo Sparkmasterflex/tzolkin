@@ -75,7 +75,10 @@ class TimePicker extends React.Component
       [arr, arr]
 
   set_top: ->
-    desired_top = document.querySelector('.tzolkin-selected').offsetTop
+    selected_el = document.querySelector('.tzolkin-selected')
+    return 0 unless selected_el?
+
+    desired_top = selected_el.offsetTop
     pos = if desired_top < this.max_height()
     then desired_top
     else this.max_height()
