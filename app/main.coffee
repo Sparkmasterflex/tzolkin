@@ -4,6 +4,7 @@ configs =
   type: 'time'
   input: document.querySelector('.select-datetime')
   trigger: document.querySelector('.select-date-calendar')
+  step: 15
 
   onOpen: (date) ->
     console.log 'open!'

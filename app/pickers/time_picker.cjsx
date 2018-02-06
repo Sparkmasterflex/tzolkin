@@ -1,7 +1,9 @@
 React    = require("react")
 ReactDOM = require 'react-dom'
 moment   = require("moment")
+
 { each, map } = require('lodash/collection')
+flatten       = require('lodash/array/flatten')
 
 Calendar = require('../components/calendar')
 Week = require('../components/week')
@@ -35,29 +37,40 @@ class TimePicker extends React.Component
   render_hours: ->
     hours = this.hours()
     if hours.length > 2 # if 1-24 vs 2 arrays
-      hours_el = map hours, (h) =>
-        map ["00", "15", "30", "45"], (m) => @render_time_li(h, m)
+      hours_el = this.build_time_options(hours)
     else
       ampm = 'am'
       hours_el = []
       each hours, (hour_block, i) =>
-        each hour_block, (h) =>
-          each ["00", "15", "30", "45"], (m) => hours_el.push @render_time_li(h, m, ampm)
+        options = @build_time_options(hour_block, ampm)
+        hours_el.push options
         ampm = 'pm'
+
     <div className='tzolkin-timelist'>
       <ul
         className='tzolkin-timelist-ul'
         style={{top: "#{this.state.top}px"}}
-      >{hours_el}</ul>
+      >{flatten(hours_el)}</ul>
     </div>
 
-  render_time_li: (hour, minute, ampm=null) ->
+  build_time_options: (hours, ampm=null) ->
+    # map ["00", "15", "30", "45"], (m) => @render_time_li(h, m)
+    lis = []
+    each hours, (h) =>
+      min = 0
+      while min < 60
+        lis.push @render_time_li(h, min, ampm)
+        min += @props.step
+    return flatten(lis)
+
+  render_time_li: (hour, minute, ampm) ->
     hour_24 = if ampm? and ampm is 'pm' then hour+12 else hour
     is_current_hour = hour_24 is this.props.selected.hour()
-    is_closest_minute = this.props.selected.minute()-15 < parseInt(minute) <= this.props.selected.minute()
+    is_closest_minute = this.props.selected.minute()-this.props.step < parseInt(minute) <= this.props.selected.minute()
     klass = ""
     klass += "tzolkin-selected" if is_current_hour and is_closest_minute
     klass += " disabled" if this.props.disabler.is_disabled(hour_24, 'hour')
+    minute = "0#{minute}" if minute.toString().length is 1
 
     <li
       onClick={this.select_time}
