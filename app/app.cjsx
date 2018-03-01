@@ -117,7 +117,9 @@ class Tzolkin extends React.Component
     top  = (y+height) + window.scrollY
     left = x + window.scrollX
 
-    top = top - (PICKER_HEIGHT + height) if (PICKER_HEIGHT + top) >= window.innerHeight
+    if (PICKER_HEIGHT + top) >= window.innerHeight
+      top = (y + window.scrollY) - (PICKER_HEIGHT + height)
+
     left = (x + width) - PICKER_WIDTHS[this.props.type] if left + PICKER_WIDTHS[this.props.type] >= window.innerWidth
 
     { top: "#{top}px", left: "#{left}px" }
