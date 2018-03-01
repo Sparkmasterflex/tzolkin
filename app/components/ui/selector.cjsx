@@ -50,10 +50,12 @@ class Selector extends React.Component
          EVENTS
   ==================###
   toggle: (e) =>
+    e?.preventDefault()
     @setState
       show: !@state.show
 
   select: (e) =>
+    e.preventDefault()
     @toggle()
     @props.change_selection(e)
 
