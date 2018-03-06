@@ -120,7 +120,7 @@ class TimePicker extends React.Component
   build_safe_time: (time) ->
     if typeof time is 'string'
       today = moment().format("YYYY-MM-DD")
-      moment("#{today} #{time}")
+      moment("#{today} #{time}", this.props.format)
     else
       moment().set time
 
