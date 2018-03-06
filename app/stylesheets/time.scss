@@ -1,7 +1,6 @@
 .tzolkin {
   &-timelist {
     position: relative;
-    width: rem-calc(65);
     height: rem-calc(174);
     overflow: hidden;
     background: #fff;
@@ -13,7 +12,8 @@
       transition: top 0.2s ease-in-out;
 
       li {
-        padding: 0 rem-calc(3);
+        padding: 0 rem-calc(4);
+        min-width: rem-calc(60);
         line-height: 2em;
         text-align: center;
         border-bottom: 1px solid $light-grey;

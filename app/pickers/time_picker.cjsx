@@ -46,12 +46,21 @@ class TimePicker extends React.Component
         hours_el.push options
         ampm = 'pm'
 
-    <div className='tzolkin-timelist'>
+    format = this.format()
+    width  = (9 * format.length)
+    width += 17 if format.match(/a/i)
+    width  = 60 if width <= 60
+
+    <div className='tzolkin-timelist' style={{width: width}}>
       <ul
         className='tzolkin-timelist-ul'
         style={{top: "#{this.state.top}px"}}
       >{flatten(hours_el)}</ul>
     </div>
+
+  format: ->
+    return this.props.format if this.props.type is 'time'
+    this.props.format.match(/[hH].*$/)[0]
 
   build_time_options: (hours, ampm=null) ->
     # map ["00", "15", "30", "45"], (m) => @render_time_li(h, m)
@@ -72,12 +81,18 @@ class TimePicker extends React.Component
     klass += " disabled" if this.props.disabler.is_disabled(hour_24, 'hour')
     minute = "0#{minute}" if minute.toString().length is 1
 
+    date_obj = this.build_safe_time {
+      hour: hour,
+      minute: minute,
+      ampm: ampm
+    }
+
     <li
       onClick={this.select_time}
       key="#{hour_24}#{minute}"
       data-time="#{hour_24}:#{minute}"
       className={klass}
-    >{hour}:{minute}{ampm}</li>
+    >{date_obj.format(this.format())}</li>
 
   hours: ->
     if /H/.test this.props.format
@@ -102,6 +117,14 @@ class TimePicker extends React.Component
     list_height      = document.querySelector('.tzolkin-timelist-ul').offsetHeight
     list_height - container_height
 
+  build_safe_time: (time) ->
+    if typeof time is 'string'
+      today = moment().format("YYYY-MM-DD")
+      moment("#{today} #{time}")
+    else
+      moment().set time
+
+
   ###==================
          EVENTS
   ==================###
@@ -120,7 +143,7 @@ class TimePicker extends React.Component
     @setState { top: new_top }
 
   select_time: (e) =>
-    today = moment().format("YYYY-MM-DD")
-    @props.set_date moment("#{today} #{e.target.dataset.time}"), null, this.node
+    date_time = @build_safe_time(e.target.dataset.time)
+    @props.set_date date_time, null, this.node
 
 module.exports = TimePicker

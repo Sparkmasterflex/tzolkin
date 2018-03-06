@@ -43,7 +43,7 @@ class Tzolkin extends React.Component
     format = switch type
       when 'date'     then "MM/DD/YYYY"
       when 'datetime' then "MM/DD/YYYY h:mm a"
-      when 'time'     then "h:mma"
+      when 'time'     then "h:mm a"
 
     date = if this.input().value isnt ""
     then moment(this.input().value, format)
