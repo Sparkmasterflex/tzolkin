@@ -45,7 +45,9 @@ class Tzolkin extends React.Component
       when 'datetime' then "MM/DD/YYYY h:mm a"
       when 'time'     then "h:mma"
 
-    date = moment(this.input().value, format) or moment()
+    date = if this.input().value isnt ""
+    then moment(this.input().value, format)
+    else moment()
 
     {
       type: type
