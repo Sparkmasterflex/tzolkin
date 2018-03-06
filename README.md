@@ -1,5 +1,11 @@
-# tzolkin
-React DateTime picker for LeadManager and beyond
+# Tzolkin
+React DateTime picker for Real Geeks' LeadManager and beyond!
+
+## About the Name
+
+Tzolk'in (Mayan pronunciation: [t͡sol ˈkʼin], formerly and commonly tzolkin) is the name bestowed by Mayanists on the 260-day Mesoamerican calendar originated by the Maya civilization of pre-Columbian Mesoamerica.
+
+[read more](https://en.wikipedia.org/wiki/Tzolk%27in)
 
 # *STILL IN DEVELOPMENT*
 
