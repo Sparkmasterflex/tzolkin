@@ -56,7 +56,6 @@ class Tzolkin extends React.Component
       min_date: moment({month: '0', day: '01'}).subtract(2, 'y')
       max_date: moment({month: '11', day: '31'}).add(2, 'y')
       format: format
-      step: 15
     }
 
   componentWillMount: ->
