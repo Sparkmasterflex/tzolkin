@@ -40,6 +40,7 @@ class DateTimePicker extends React.Component
         selected={this.props.selected}
         format={this.props.format}
         set_date={this.set_time}
+        step={this.props.step}
         disabler={this.props.disabler}
       />
     </div>
