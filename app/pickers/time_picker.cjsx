@@ -63,9 +63,10 @@ class TimePicker extends React.Component
     this.props.format.match(/[hH].*$/)[0]
 
   build_time_options: (hours, ampm=null) ->
-    # map ["00", "15", "30", "45"], (m) => @render_time_li(h, m)
+    i = 0
     lis = []
     each hours, (h) =>
+      i += 1
       min = 0
       while min < 60
         lis.push @render_time_li(h, min, ampm)
@@ -81,25 +82,24 @@ class TimePicker extends React.Component
     klass += " disabled" if this.props.disabler.is_disabled(hour_24, 'hour')
     minute = "0#{minute}" if minute.toString().length is 1
 
-    date_obj = this.build_safe_time {
-      hour: hour,
-      minute: minute,
-      ampm: ampm
+    date_time = moment().set {
+      hour: hour_24,
+      minute: minute
     }
 
     <li
       onClick={this.select_time}
       key="#{hour_24}#{minute}"
-      data-time="#{hour_24}:#{minute}"
+      data-hour={hour_24}
+      data-minute={minute}
       className={klass}
-    >{date_obj.format(this.format())}</li>
+    >{date_time.format(this.format())}</li>
 
   hours: ->
     if /H/.test this.props.format
       [0..23]
     else
-      arr = [1..11]
-      arr.unshift(12)
+      arr = [0..11]
       [arr, arr]
 
   set_top: ->
@@ -116,13 +116,6 @@ class TimePicker extends React.Component
     container_height = document.querySelector('.tzolkin-timelist').offsetHeight
     list_height      = document.querySelector('.tzolkin-timelist-ul').offsetHeight
     list_height - container_height
-
-  build_safe_time: (time) ->
-    if typeof time is 'string'
-      today = moment().format("YYYY-MM-DD")
-      moment("#{today} #{time}", this.props.format)
-    else
-      moment().set time
 
 
   ###==================
@@ -143,7 +136,11 @@ class TimePicker extends React.Component
     @setState { top: new_top }
 
   select_time: (e) =>
-    date_time = @build_safe_time(e.target.dataset.time)
+    data = e.target.dataset
+    date_time = moment().set {
+      hour: data.hour
+      minute: data.minute
+    }
     @props.set_date date_time, null, this.node
 
 module.exports = TimePicker
