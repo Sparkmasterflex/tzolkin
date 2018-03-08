@@ -46,12 +46,7 @@ class TimePicker extends React.Component
         hours_el.push options
         ampm = 'pm'
 
-    format = this.format()
-    width  = (9 * format.length)
-    width += 17 if format.match(/a/i)
-    width  = 60 if width <= 60
-
-    <div className='tzolkin-timelist' style={{width: width}}>
+    <div className='tzolkin-timelist' style={{width: this.list_width()}}>
       <ul
         className='tzolkin-timelist-ul'
         style={{top: "#{this.state.top}px"}}
@@ -61,6 +56,16 @@ class TimePicker extends React.Component
   format: ->
     return this.props.format if this.props.type is 'time'
     this.props.format.match(/[hH].*$/)[0]
+
+  list_width: ->
+    format = this.format()
+    format_len = format.length
+    format_len += 1 if format.match(/\bh:/)
+    format_len += 1 if format.match(/a/i)
+
+    width = 10 * format_len
+    return 60 if width <= 60
+    width
 
   build_time_options: (hours, ampm=null) ->
     i = 0
@@ -93,6 +98,7 @@ class TimePicker extends React.Component
       data-hour={hour_24}
       data-minute={minute}
       className={klass}
+      style={{width: this.list_width() - 2}}
     >{date_time.format(this.format())}</li>
 
   hours: ->
