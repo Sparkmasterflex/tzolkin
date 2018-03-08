@@ -37,8 +37,14 @@
 
   &-selector {
     position: relative;
-    margin: 0 $half;
+    margin: 0 $quarter;
     text-align: center;
+
+    a:after {
+      font-size: rem-calc(12);
+      margin-left: rem-calc(3);
+      opacity: 0.5;
+    }
 
     &--month,
     &--year { @extend .tzolkin-selector; }

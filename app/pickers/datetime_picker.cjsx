@@ -30,6 +30,7 @@ class DateTimePicker extends React.Component
     <div className="tzolkin-datetimepicker" style={this.props.styles}>
       <Calendar
         date={this.props.selected}
+        set_date={this.props.set_date}
         switch_month={this.props.switch_month}
         switch_year={this.props.switch_year}
         min_date={this.props.min_date}

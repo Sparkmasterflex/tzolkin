@@ -11,6 +11,7 @@ class Calendar extends React.Component
     <div className='tzolkin-calendar__container'>
       <div className='tzolkin-calendar__controls'>
         <a href='#prev-month' className='tzolkin-calendar__nav tzicon tzprevious' onClick={this.previous_month}></a>
+        <a href='#today' className='tzolkin-calendar__nav tzicon tzhome' onClick={this.set_today}></a>
 
         <Selector
           selected={moment(this.props.date).format("MMMM")}
@@ -51,6 +52,10 @@ class Calendar extends React.Component
   next_month: (e) =>
     e.preventDefault()
     @props.switch_month('add', 1)
+
+  set_today: (e) =>
+    e.preventDefault()
+    @props.set_date(moment(), true)
 
   select_year: (e) =>
     e.preventDefault()
