@@ -59,13 +59,14 @@ class Tzolkin extends React.Component
     }
 
   componentWillMount: ->
-    element = (el) ->
-      return el unless typeof el is 'string'
-      document.querySelector(el)
+    input = this.input()
+    input.addEventListener 'click', this.display_picker
 
-    element(this.props.input).addEventListener 'click', this.display_picker
     if this.props.trigger?
-      element(this.props.trigger).addEventListener 'click', this.display_picker
+      trigger = if typeof this.props.input is 'string'
+      then document.querySelector(this.props.trigger)
+      else this.props.trigger
+      trigger.addEventListener 'click', this.display_picker
 
   render: ->
     <div ref='tzolkin-picker'>
