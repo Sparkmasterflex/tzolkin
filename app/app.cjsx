@@ -142,10 +142,10 @@ class Tzolkin extends React.Component
 
     this.setState {selected: selected}
 
-  set_date: (d, show=false, node) =>
+  set_date: (d, keep_open=false, node) =>
     this.input().value = d.format(this.state.format)
     @on_select(node)
-    @setState {selected: d, show: show}
+    @setState {selected: d, show: keep_open}
 
   input: ->
     return this.props.input unless typeof this.props.input is 'string'
