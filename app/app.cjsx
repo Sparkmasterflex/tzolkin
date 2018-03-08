@@ -93,14 +93,15 @@ class Tzolkin extends React.Component
 
   picker_props: ->
     {
-      selected: this.state.selected
-      format:   this.state.format
-      step:     this.state.step
-      set_date: this.set_date
-      styles:   this.calculate_position()
-      on_open:  this.on_open
-      on_close: this.on_close
-      disabler: this.disabler
+      selected:     this.state.selected
+      format:       this.state.format
+      step:         this.state.step
+      set_date:     this.set_date
+      styles:       this.calculate_position()
+      on_open:      this.on_open
+      on_close:     this.on_close
+      disabler:     this.disabler
+      set_readonly: this.readonly
     }
 
   datepicker_props: ->
@@ -149,6 +150,13 @@ class Tzolkin extends React.Component
   input: ->
     return this.props.input unless typeof this.props.input is 'string'
     document.querySelector(this.props.input)
+
+  readonly: (action) =>
+    if action is 'add'
+      @input().setAttribute('readonly', true)
+    else if action is 'remove'
+      @input().removeAttribute('readonly')
+
 
   ###==================
         CALLBACKS

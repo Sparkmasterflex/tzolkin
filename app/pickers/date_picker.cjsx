@@ -12,8 +12,11 @@ class DatePicker extends React.Component
   componentDidMount: ->
     this.node = ReactDOM.findDOMNode(this)
     this.props.on_open this.node
+    this.props.set_readonly 'add'
 
-  componentWillUnmount: -> this.props.on_close this.node
+  componentWillUnmount: ->
+    this.props.on_close this.node
+    this.props.set_readonly 'remove'
 
   render: ->
     <div className="tzolkin-datepicker" style={this.props.styles}>

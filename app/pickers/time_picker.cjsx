@@ -21,11 +21,14 @@ class TimePicker extends React.Component
   componentDidMount: ->
     this.node = ReactDOM.findDOMNode(this)
     this.props.on_open?(this.node)
+    this.props.set_readonly?('add') # b/c sometimes it's nested
 
     this.setState
       top: this.set_top()
 
-  componentWillUnmount: -> this.props.on_close?(this.node)
+  componentWillUnmount: ->
+    this.props.on_close?(this.node)
+    this.props.set_readonly?('remove') # b/c sometimes it's nested
 
   render: ->
     <div className="tzolkin-timepicker" style={this.props.styles}>
