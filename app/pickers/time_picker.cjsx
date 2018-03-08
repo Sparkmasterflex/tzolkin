@@ -1,6 +1,7 @@
-React    = require("react")
-ReactDOM = require 'react-dom'
-moment   = require("moment")
+React        = require("react")
+ReactDOM     = require 'react-dom'
+ClickOutside = require('react-click-outside')
+moment       = require("moment")
 
 { each, map } = require('lodash/collection')
 flatten       = require('lodash/array/flatten')
@@ -126,7 +127,7 @@ class TimePicker extends React.Component
     list_height      = document.querySelector('.tzolkin-timelist-ul').offsetHeight
     list_height - container_height
 
-
+  handleClickOutside: => @props.toggle?()
   ###==================
          EVENTS
   ==================###
@@ -152,4 +153,4 @@ class TimePicker extends React.Component
     }
     @props.set_date date_time, null, this.node
 
-module.exports = TimePicker
+module.exports = ClickOutside(TimePicker)

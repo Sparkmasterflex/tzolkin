@@ -1,6 +1,8 @@
-React    = require("react")
-ReactDOM = require 'react-dom'
-moment   = require("moment")
+React        = require("react")
+ReactDOM     = require 'react-dom'
+ClickOutside = require('react-click-outside')
+moment       = require("moment")
+
 map      = require('lodash/collection/map')
 
 Calendar = require('../components/calendar')
@@ -53,4 +55,6 @@ class DatePicker extends React.Component
   set_date: (date, show) =>
     @props.set_date(date, show, @node)
 
-module.exports = DatePicker
+  handleClickOutside: => @props.toggle()
+
+module.exports = ClickOutside(DatePicker)

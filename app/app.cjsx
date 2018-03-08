@@ -102,6 +102,7 @@ class Tzolkin extends React.Component
       on_close:     this.on_close
       disabler:     this.disabler
       set_readonly: this.readonly
+      toggle:       this.display_picker
     }
 
   datepicker_props: ->
@@ -111,7 +112,6 @@ class Tzolkin extends React.Component
       min_date: this.state.min_date
       max_date: this.state.max_date
     }, this.picker_props()
-
 
   calculate_position: ->
     {x, y, width, height} = this.input().getBoundingClientRect()
@@ -174,7 +174,7 @@ class Tzolkin extends React.Component
          EVENTS
   ==================###
   display_picker: (e) =>
-    e.preventDefault()
+    e?.preventDefault()
     @setState { show: !@state.show }
 
 

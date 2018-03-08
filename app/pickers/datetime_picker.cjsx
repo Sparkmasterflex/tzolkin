@@ -1,6 +1,8 @@
-React    = require("react")
-ReactDOM = require 'react-dom'
-moment   = require("moment")
+React        = require("react")
+ReactDOM     = require 'react-dom'
+ClickOutside = require('react-click-outside')
+moment       = require("moment")
+
 map      = require('lodash/collection/map')
 clone    = require('lodash/lang/clone')
 
@@ -76,6 +78,7 @@ class DateTimePicker extends React.Component
 
     moment("#{date} #{time}")
 
+  handleClickOutside: => @props.toggle()
 
   ###==================
          EVENTS
@@ -89,4 +92,4 @@ class DateTimePicker extends React.Component
       @props.set_date(@concat_selected(time, 'time'), !@state.date?, this.node)
 
 
-module.exports = DateTimePicker
+module.exports = ClickOutside(DateTimePicker)

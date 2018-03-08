@@ -37,6 +37,10 @@
     "webpack": "^3.8.1"
   },
   "dependencies": {
-    "moment": "^2.19.2"
+    "lodash": "^3.9.1",
+    "moment": "^2.19.2",
+    "react": "^15.4.2",
+    "react-click-outside": "^3.0.1",
+    "react-dom": "^15.4.2"
   }
 }
