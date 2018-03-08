@@ -28,6 +28,7 @@ class DatePicker extends React.Component
         min_date={this.props.min_date}
         max_date={this.props.max_date}
         disabler={this.props.disabler}
+        format={this.props.format}
       >
         {this.render_weeks()}
       </Calendar>

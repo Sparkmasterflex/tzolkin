@@ -10,8 +10,19 @@ class Calendar extends React.Component
   render: ->
     <div className='tzolkin-calendar__container'>
       <div className='tzolkin-calendar__controls'>
-        <a href='#prev-month' className='tzolkin-calendar__nav tzicon tzprevious' onClick={this.previous_month}></a>
-        <a href='#today' className='tzolkin-calendar__nav tzicon tzhome' onClick={this.set_today}></a>
+        <a
+          href='#prev-month'
+          className='tzolkin-calendar__nav tzicon tzprevious'
+          onClick={this.previous_month}
+          title={this.props.date.subtract(1, 'month').format("MMMM")}
+        ></a>
+
+       <a
+          href='#today'
+          className='tzolkin-calendar__nav tzicon tzhome'
+          onClick={this.set_today}
+          title={moment().format(this.props.format)}
+        ></a>
 
         <Selector
           selected={moment(this.props.date).format("MMMM")}
@@ -28,7 +39,12 @@ class Calendar extends React.Component
           disabler={this.props.disabler}
         />
 
-        <a href='#next-month' className='tzolkin-calendar__nav tzicon tznext' onClick={this.next_month}></a>
+        <a
+          href='#next-month'
+          className='tzolkin-calendar__nav tzicon tznext'
+          onClick={this.next_month}
+          title={this.props.date.add(1, 'month').format("MMMM")}
+        ></a>
       </div>
 
       <div className='tzolkin-month'>
