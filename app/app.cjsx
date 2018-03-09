@@ -2,9 +2,9 @@ React    = require "react"
 ReactDOM = require 'react-dom'
 moment   = require "moment"
 
-{ map, each } = require('lodash/collection')
+each = require('lodash/collection/each')
 extend = require('lodash/object/extend')
-clone  = require('lodash/lang/clone')
+{ clone, isArray } = require('lodash/lang')
 
 DatePicker = require('./pickers/date_picker')
 TimePicker = require('./pickers/time_picker')
@@ -45,10 +45,7 @@ class Tzolkin extends React.Component
       when 'datetime' then "MM/DD/YYYY h:mm a"
       when 'time'     then "h:mm a"
 
-    date = if this.input().value isnt ""
-    then moment(this.input().value, format)
-    else moment()
-
+    date = this.date(format)
     {
       type: type
       default: date.format("YYYY-MM-DD HH:mm:ss")
@@ -59,8 +56,8 @@ class Tzolkin extends React.Component
     }
 
   componentWillMount: ->
-    input = this.input()
-    input.addEventListener 'click', this.display_picker
+    if this.props.input
+      this.input()?.addEventListener 'click', this.display_picker
 
     if this.props.trigger?
       trigger = if typeof this.props.input is 'string'
@@ -70,11 +67,12 @@ class Tzolkin extends React.Component
 
   render: ->
     <div ref='tzolkin-picker'>
+      {this.children()}
       {this.render_picker()}
     </div>
 
   render_picker: ->
-    return "" unless this.state.show
+    return "" unless this.show_datepicker()
     switch this.state.type
       when 'date'     then this.render_datepicker()
       when 'time'     then this.render_timepicker()
@@ -147,16 +145,47 @@ class Tzolkin extends React.Component
     @on_select(node)
     @setState {selected: d, show: keep_open}
 
-  input: ->
-    return this.props.input unless typeof this.props.input is 'string'
-    document.querySelector(this.props.input)
-
   readonly: (action) =>
     if action is 'add'
       @input().setAttribute('readonly', true)
     else if action is 'remove'
       @input().removeAttribute('readonly')
 
+  date: (format)->
+    format ?= this.state.format
+    return moment(this.props.date, format) if this.props.date?
+
+    input = this.input()
+    console.log input
+    return moment(input.value, format) if input? and input.value isnt ""
+    return moment()
+
+  children: ->
+    return "" unless this.props.children?
+
+    new_props = (el, i) =>
+      props = {key: "#{el.type}-#{i}"}
+      extend(props, {onFocus: this.display_picker, ref: (el) => @tzolkin_trigger = el}) if el.type == 'input'
+
+    if isArray(this.props.children)
+      children = []
+      each this.props.children, (el, i) =>
+        children.push React.cloneElement(el, new_props(el, i))
+      return children
+    else
+      el = this.props.children
+      return React.cloneElement(el, new_props(el, 1))
+
+
+  input: ->
+    return this.refs['tzolkin-picker'] if this.refs?['tzolkin-picker']?
+    return unless this.props.input
+    return this.props.input unless typeof this.props.input is 'string'
+    document.querySelector(this.props.input)
+
+  show_datepicker: ->
+    return this.props.visible if this.props.visible?
+    this.state.show           if this.state.show?
 
   ###==================
         CALLBACKS
