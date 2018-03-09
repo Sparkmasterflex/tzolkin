@@ -14,7 +14,7 @@ class Calendar extends React.Component
           href='#prev-month'
           className='tzolkin-calendar__nav tzicon tzprevious'
           onClick={this.previous_month}
-          title={this.props.date.subtract(1, 'month').format("MMMM")}
+          title={this.month_name('previous')}
         ></a>
 
        <a
@@ -43,7 +43,7 @@ class Calendar extends React.Component
           href='#next-month'
           className='tzolkin-calendar__nav tzicon tznext'
           onClick={this.next_month}
-          title={this.props.date.add(1, 'month').format("MMMM")}
+          title={this.month_name('next')}
         ></a>
       </div>
 
@@ -57,6 +57,13 @@ class Calendar extends React.Component
       </div>
     </div>
 
+  month_name: (prev_next) ->
+    dt = moment(this.props.date)
+    alt_dt = if prev_next is 'previous'
+    then dt.subtract(1, 'month')
+    else dt.add(1, 'month')
+
+    alt_dt.format("MMMM")
 
   ###==================
          EVENTS

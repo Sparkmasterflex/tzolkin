@@ -132,7 +132,7 @@ class TimePicker extends React.Component
     if @state.show
       @setState show: !@state.show
     else
-      @props.toggle()
+      @props.toggle?()
 
   ###==================
          EVENTS
