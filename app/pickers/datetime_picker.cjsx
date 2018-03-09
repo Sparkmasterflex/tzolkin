@@ -16,6 +16,7 @@ class DateTimePicker extends React.Component
   constructor: (props) ->
     super(props)
     this.state =
+      show: true
       date: null
       time: null
 
@@ -78,7 +79,11 @@ class DateTimePicker extends React.Component
 
     moment("#{date} #{time}")
 
-  handleClickOutside: => @props.toggle()
+  handleClickOutside: =>
+    if @state.show
+      @setState show: !@state.show
+    else
+      @props.toggle()
 
   ###==================
          EVENTS

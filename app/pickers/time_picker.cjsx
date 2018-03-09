@@ -18,6 +18,7 @@ class TimePicker extends React.Component
     super(props)
     this.state =
       top: 0
+      show: true
 
   componentDidMount: ->
     this.node = ReactDOM.findDOMNode(this)
@@ -127,7 +128,12 @@ class TimePicker extends React.Component
     list_height      = document.querySelector('.tzolkin-timelist-ul').offsetHeight
     list_height - container_height
 
-  handleClickOutside: => @props.toggle?()
+  handleClickOutside: =>
+    if @state.show
+      @setState show: !@state.show
+    else
+      @props.toggle()
+
   ###==================
          EVENTS
   ==================###

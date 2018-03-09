@@ -11,6 +11,10 @@ Week     = require('../components/week')
 class DatePicker extends React.Component
   displayName: "DatePicker"
 
+  constructor: (props) ->
+    super(props)
+    this.state = {show: true}
+
   componentDidMount: ->
     this.node = ReactDOM.findDOMNode(this)
     this.props.on_open this.node
@@ -55,6 +59,10 @@ class DatePicker extends React.Component
   set_date: (date, show) =>
     @props.set_date(date, show, @node)
 
-  handleClickOutside: => @props.toggle()
+  handleClickOutside: =>
+    if @state.show
+      @setState show: !@state.show
+    else
+      @props.toggle()
 
 module.exports = ClickOutside(DatePicker)
