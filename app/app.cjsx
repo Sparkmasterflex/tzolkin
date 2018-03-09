@@ -156,30 +156,29 @@ class Tzolkin extends React.Component
     return moment(this.props.date, format) if this.props.date?
 
     input = this.input()
-    console.log input
     return moment(input.value, format) if input? and input.value isnt ""
     return moment()
 
   children: ->
     return "" unless this.props.children?
 
-    new_props = (el, i) =>
+    children = if isArray(this.props.children) then this.props.children else [this.props.children]
+    children_arr = []
+    each children, (el, i) =>
       props = {key: "#{el.type}-#{i}"}
-      extend(props, {onFocus: this.display_picker, ref: (el) => @tzolkin_trigger = el}) if el.type == 'input'
+      props = extend(props, {onFocus: @display_picker, ref: "tzolkin-input" }) if el.type is 'input'
+      children_arr.push React.cloneElement(el, props)
 
-    if isArray(this.props.children)
-      children = []
-      each this.props.children, (el, i) =>
-        children.push React.cloneElement(el, new_props(el, i))
-      return children
-    else
-      el = this.props.children
-      return React.cloneElement(el, new_props(el, 1))
-
+    children_arr
 
   input: ->
-    return this.refs['tzolkin-picker'] if this.refs?['tzolkin-picker']?
+    # if nested input in JSX
+    return this.refs['tzolkin-input'] if this.refs['tzolkin-input']?
+
+    # nothing to see here
     return unless this.props.input
+
+    # either return dom element or use string to find it
     return this.props.input unless typeof this.props.input is 'string'
     document.querySelector(this.props.input)
 
