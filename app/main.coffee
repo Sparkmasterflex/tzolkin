@@ -1,19 +1,22 @@
-Tzolkin  = require './app'
+MyComponent = require('./dev')
+MyComponent.create(document.getElementById('react'))
 
-configs =
-  type: 'time'
-  input: document.querySelector('.select-datetime')
-  trigger: document.querySelector('.select-date-calendar')
-  step: 15
+# { TzolkinPlugin } = require './app'
 
-  onOpen: (date) ->
-    console.log 'open!'
+# configs =
+#   type: 'datetime'
+#   input: document.querySelector('.select-datetime')
+#   trigger: document.querySelector('.select-date-calendar')
+#   step: 15
 
-  onSelect: ->
-    console.log 'selected'
+#   onOpen: (date) ->
+#     console.log 'open!'
 
-  onClose: ->
-    console.log 'close!'
+#   onSelect: ->
+#     console.log 'selected'
 
-Tzolkin.create configs
+#   onClose: ->
+#     console.log 'close!'
+
+# TzolkinPlugin.create configs
 

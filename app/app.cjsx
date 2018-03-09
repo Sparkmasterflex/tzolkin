@@ -177,12 +177,12 @@ class Tzolkin extends React.Component
     e?.preventDefault()
     @setState { show: !@state.show }
 
-
-
-module.exports = {
+TzolkinPlugin = {
   create: (config) ->
     calendar = document.createElement('div')
     calendar.className = "tzolkin"
     document.body.appendChild calendar
     ReactDOM.render <Tzolkin {...config} />, calendar
 }
+
+module.exports = { Tzolkin, TzolkinPlugin }
