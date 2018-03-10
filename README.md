@@ -9,13 +9,28 @@ Tzolk'in (Mayan pronunciation: [t͡sol ˈkʼin], formerly and commonly tzolkin) 
 
 # *STILL IN DEVELOPMENT*
 
+
 ## Install
 
 ```bash
   npm install tzolkin --save
 ```
 
-## Usage
+## React/JSX Usage
+
+```jsx
+  { Tzolkin } = require('tzolkin')
+
+  render: => {
+    <div>
+      <Tzolkin type="datetime">
+        <input defaultValue="3/09/2018" type="input" />
+      </Tzolkin>
+    </div>  
+  }
+```
+
+## Standard JavaScript or jQuery Usage
 
 #### HTML:
 
@@ -28,9 +43,9 @@ To prevent any browser Date/Time picker UI, use a standard text input vs date, t
 #### JS: 
 
 ```javascript
-  Tzolkin  = require('tzolkin');
+  { TzolkinPlugin } = require('tzolkin');
 
-  Tzolkin.create({
+  TzolkinPlugin.create({
     type: 'datetime',
     input: '.select-datetime'
   })
@@ -63,13 +78,13 @@ If there are multiple inputs which need to use `Tzolkin` then set `input` key eq
 
 
 
-
-### Options
+## Options
 
 | Option  | Data Type  | Description                    | Acceptable options |
 |---------|------------|--------------------------------|--------------------|
 | input * | DOM element, String | `<input>` to trigger date picker and receive selected date/time | `document.querySelector('.select-date')` or '.select-date' |
 | type   | String     | picker has date, time or both  | 'date', 'time', 'datetime' |
+| date    | String | Date/time for Tzolkin to start with | "03/12/2018" |
 | format  | String | Date/time format desired using [moment.js formating](http://momentjs.com/docs/#/displaying/format/) | "MM/DD/YYYY h:mm a" |
 | trigger | DOM element, String | link, span, button, etc to trigger date picker | `document.querySelector('a.select-date-trigger')` or 'a.select-date-trigger' |
 | step | Integer | For time picker, minutes increments between hours | 15, 30, etc |
@@ -79,9 +94,9 @@ If there are multiple inputs which need to use `Tzolkin` then set `input` key eq
 | onSelect | callback | _see below_ | |
 | onClose | callback | _see below_ | |
 
-\* indicates a required option
+\* non-React only
 
-### Defaults
+## Defaults
 
 All options, minus `input` are optional and most have a default value that they fall back on if no value is passed in the configurations.
 
@@ -92,7 +107,7 @@ All options, minus `input` are optional and most have a default value that they 
 | minDate | -2 years | Jan 1st of 2 years ago |
 | maxDate | +2 years | Dec 31st of 2 years in future |
 
-### Callbacks
+## Callbacks
 
 Tzolkin allows for 3 callbacks occurring at different points in the lifecycle of the date/time picker.
 
