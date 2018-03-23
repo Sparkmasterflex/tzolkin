@@ -127,17 +127,17 @@ Tzolkin allows for 3 callbacks occurring at different points in the lifecycle of
     onOpen: function(date, picker_el, input_el) {
       console.log("Opening date/time picker");
       console.log(date);
-      ... do something cool ...
+      // ... do something cool ...
     },
 
     onSelect: function(date, picker_el, input_el) {
       alert("You picked" + date);
-      ... do something EVEN cooler ...
+      // ... do something EVEN cooler ...
     },
 
     onClose: function(date, picker_el, input_el) {
       console.log("Closing date/time picker")
-      ... do something mildly entertaining ...
+      // ... do something mildly entertaining ...
     }
   })
 ```
