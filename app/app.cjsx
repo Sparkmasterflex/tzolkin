@@ -112,8 +112,11 @@ class Tzolkin extends React.Component
     }, this.picker_props()
 
   calculate_position: ->
-    {x, y, width, height} = this.input().getBoundingClientRect()
+    {x, left, y, top, width, height} = this.input().getBoundingClientRect()
     height += 5 # padding
+
+    y ?= top
+    x ?= left
 
     top  = (y+height) + window.scrollY
     left = x + window.scrollX
