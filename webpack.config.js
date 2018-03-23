@@ -16,6 +16,7 @@ module.exports = {
       server: { baseDir: ['public'] }
     })
   ],
+
   module: {
     loaders: [
       { test: /\.coffee$/, loader: 'coffee-loader'},
@@ -28,6 +29,7 @@ module.exports = {
       { test: /\.json$/, loader: 'json-loader' }
     ]
   },
+
   resolve: {
     extensions: [".js", '.cjsx', ".coffee", ".scss", ".css"],
     alias: {

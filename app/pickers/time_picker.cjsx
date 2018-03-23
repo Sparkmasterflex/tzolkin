@@ -1,13 +1,13 @@
-React        = require("react")
-ReactDOM     = require 'react-dom'
-ClickOutside = require('react-click-outside')
-moment       = require("moment")
+import React        from "react"
+import ReactDOM     from 'react-dom'
+import ClickOutside from 'react-click-outside'
+import moment       from "moment"
 
-{ each, map } = require('lodash/collection')
-flatten       = require('lodash/array/flatten')
+import { each, map } from 'lodash/collection'
+import flatten       from 'lodash/array/flatten'
 
-Calendar = require('../components/calendar')
-Week = require('../components/week')
+import Calendar from '../components/calendar'
+import Week from '../components/week'
 
 SCROLL_JUMP = 145
 
@@ -159,4 +159,4 @@ class TimePicker extends React.Component
     }
     @props.set_date date_time, null, this.node
 
-module.exports = ClickOutside(TimePicker)
+export default ClickOutside(TimePicker)

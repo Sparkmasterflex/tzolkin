@@ -1,14 +1,14 @@
-React        = require("react")
-ReactDOM     = require 'react-dom'
-ClickOutside = require('react-click-outside')
-moment       = require("moment")
+import React        from "react"
+import ReactDOM     from 'react-dom'
+import ClickOutside from 'react-click-outside'
+import moment       from "moment"
 
-map      = require('lodash/collection/map')
-clone    = require('lodash/lang/clone')
+import map      from 'lodash/collection/map'
+import clone    from 'lodash/lang/clone'
 
-Calendar   = require('../components/calendar')
-Week       = require('../components/week')
-TimePicker = require('./time_picker')
+import Calendar   from '../components/calendar'
+import Week       from '../components/week'
+import TimePicker from './time_picker'
 
 class DateTimePicker extends React.Component
   displayName: "DateTimePicker"
@@ -97,4 +97,4 @@ class DateTimePicker extends React.Component
       @props.set_date(@concat_selected(time, 'time'), !@state.date?, this.node)
 
 
-module.exports = ClickOutside(DateTimePicker)
+export default ClickOutside(DateTimePicker)

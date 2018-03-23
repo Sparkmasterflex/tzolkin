@@ -1,12 +1,12 @@
-moment   = require "moment"
+import moment from "moment"
 
-{
+import {
   each,
   filter,
   find,
-} = require('lodash/collection')
-keys = require('lodash/object/keys')
-flatten = require('lodash/array/flatten')
+}       from 'lodash/collection'
+import keys    from 'lodash/object/keys'
+import flatten from 'lodash/array/flatten'
 
 class Disabler
   constructor: (disable) ->
@@ -70,4 +70,4 @@ class Disabler
     matched_year = find this.configs.years, (y) -> y is year
     matched_year?
 
-module.exports = Disabler
+export default Disabler

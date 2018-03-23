@@ -1,11 +1,12 @@
-React = require("react")
-moment = require("moment")
-map = require('lodash/collection/map')
-{
+import React from "react"
+import moment from "moment"
+import map from 'lodash/collection/map'
+
+import {
   PICKER_HEIGHT,
   PICKER_WIDTHS,
   SELECTOR_OPTION_HEIGHT
-} = require('../../../constants')
+} from '../../../constants'
 
 class Selector extends React.Component
   displayName: "Selector"
@@ -60,4 +61,4 @@ class Selector extends React.Component
     @props.change_selection(e)
 
 
-module.exports = Selector
+export default Selector

@@ -1,7 +1,8 @@
-React = require("react")
-moment = require("moment")
-map = require('lodash/collection/map')
-Day = require('./day')
+import React  from "react"
+import moment from "moment"
+import map    from 'lodash/collection/map'
+
+import Day    from './day'
 
 class Week extends React.Component
   displayName: "Week"
@@ -28,4 +29,4 @@ class Week extends React.Component
     return false if this.props.disabler.is_disabled(day)
     this.props.min_date <= day <= this.props.max_date
 
-module.exports = Week
+export default Week
