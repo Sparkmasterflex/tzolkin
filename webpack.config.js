@@ -36,10 +36,10 @@ module.exports = {
         }
       },
       {
-        test: /\.cjsx$/,
+        test: /\.jsx$/,
         exclude: /node_modules/,
         use: {
-          loader: 'cjsx-loader',
+          loader: 'coffee-loader',
           options: {
             transpile: {
               presets: ['env']
@@ -51,7 +51,7 @@ module.exports = {
   },
 
   resolve: {
-    extensions: [".js", '.cjsx', ".coffee", ".scss", ".css"],
+    extensions: [".js", '.jsx', ".coffee", ".scss", ".css"],
     alias: {
       React: path.resolve(__dirname, 'node_modules/react'),
       ReactDOM: path.resolve(__dirname, 'node_modules/react-dom')
