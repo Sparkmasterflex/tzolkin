@@ -27,26 +27,51 @@ module.exports = {
     new webpack.IgnorePlugin(/un~$/),
     new webpack.optimize.UglifyJsPlugin(),
   ],
+
   resolve: {
-    extensions: ['.js', '.cjsx', '.coffee', '.css', '.scss'],
+    extensions: ['.js', '.jsx', '.coffee', '.css', '.scss'],
     alias: {
       React: path.resolve(__dirname, 'node_modules/react'),
       ReactDOM: path.resolve(__dirname, 'node_modules/react-dom'),
     }
   },
+
   externals: {
     'react':     "React",
     'react-dom': 'ReactDOM',
     'lodash':    'lodash',
   },
+
   module: {
-    loaders: [
-      { test: /\.cjsx$/, loaders: ['coffee-loader', 'cjsx-loader']},
-      { test: /\.coffee$/, loader: 'coffee-loader' },
-      { test: /\.scss$/, loaders: ['style-loader', 'css-loader', 'sass-loader'] },
+    rules: [
+      {
+        test: /\.coffee$/,
+        use: {
+          loader: 'coffee-loader',
+          options: {
+            transpile: {
+              presets: ['babel-preset-env']
+            }
+          }
+        }
+      },
+      {
+        test: /\.jsx$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'coffee-loader',
+          options: {
+            transpile: {
+              presets: ['babel-preset-env', 'react']
+            }
+          }
+        }
+      },
+      { test: /\.scss$/, loaders: ['style-loader', 'css-loader', 'sass-loader']},
       { test: /\.json$/, loader: 'json-loader' }
     ]
   },
+
   node: {
     fs: 'empty',
     net: 'empty',
