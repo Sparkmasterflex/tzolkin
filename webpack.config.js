@@ -19,14 +19,34 @@ module.exports = {
 
   module: {
     loaders: [
-      { test: /\.coffee$/, loader: 'coffee-loader'},
+      { test: /\.scss$/, loaders: ['style-loader', 'css-loader', 'sass-loader']},
+      { test: /\.json$/, loader: 'json-loader' }
+    ],
+
+    rules: [
+      {
+        test: /\.coffee$/,
+        use: {
+          loader: 'coffee-loader',
+          options: {
+            transpile: {
+              presets: ['env']
+            }
+          }
+        }
+      },
       {
         test: /\.cjsx$/,
         exclude: /node_modules/,
-        loaders: ['coffee-loader', 'cjsx-loader']
+        use: {
+          loader: 'cjsx-loader',
+          options: {
+            transpile: {
+              presets: ['env']
+            }
+          }
+        }
       },
-      { test: /\.scss$/, loaders: ['style-loader', 'css-loader', 'sass-loader']},
-      { test: /\.json$/, loader: 'json-loader' }
     ]
   },
 
