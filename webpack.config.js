@@ -18,11 +18,6 @@ module.exports = {
   ],
 
   module: {
-    loaders: [
-      { test: /\.scss$/, loaders: ['style-loader', 'css-loader', 'sass-loader']},
-      { test: /\.json$/, loader: 'json-loader' }
-    ],
-
     rules: [
       {
         test: /\.coffee$/,
@@ -30,7 +25,7 @@ module.exports = {
           loader: 'coffee-loader',
           options: {
             transpile: {
-              presets: ['env']
+              presets: ['babel-preset-env']
             }
           }
         }
@@ -42,11 +37,13 @@ module.exports = {
           loader: 'coffee-loader',
           options: {
             transpile: {
-              presets: ['env']
+              presets: ['babel-preset-env', 'react']
             }
           }
         }
       },
+      { test: /\.scss$/, loaders: ['style-loader', 'css-loader', 'sass-loader']},
+      { test: /\.json$/, loader: 'json-loader' }
     ]
   },
 
