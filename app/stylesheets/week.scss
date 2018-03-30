@@ -1,6 +1,7 @@
 .tzolkin {
   &-week {
     display: flex;
+    display: -ms-flexbox;
     width: 100%;
 
     &:first-child {

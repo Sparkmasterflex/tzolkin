@@ -32,7 +32,7 @@ class MyComponent extends React.Component
 
 
 
-module.exports = {
+export {
   create: (node) ->
     ReactDOM.render <MyComponent />, node
 }

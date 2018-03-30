@@ -1,8 +1,8 @@
-React = require("react")
-moment = require("moment")
-map = require('lodash/collection/map')
+import React from "react"
+import moment from "moment"
+import map from 'lodash/collection/map'
 
-Selector = require('./ui/selector')
+import Selector from './ui/selector'
 
 class Calendar extends React.Component
   displayName: "Calendar"
@@ -101,4 +101,4 @@ class Calendar extends React.Component
     @props.switch_month(args...) if args?
 
 
-module.exports = Calendar
+export default Calendar

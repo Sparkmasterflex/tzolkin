@@ -1,5 +1,5 @@
-React = require("react")
-moment = require("moment")
+import React  from "react"
+import moment from "moment"
 
 class Day extends React.Component
   displayName: "Day"
@@ -19,4 +19,5 @@ class Day extends React.Component
   select_date: (e) =>
     e.preventDefault()
     @props.set_date(@props.day)
-module.exports = Day
+
+export default Day

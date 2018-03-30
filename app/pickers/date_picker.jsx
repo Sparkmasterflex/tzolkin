@@ -1,12 +1,12 @@
-React        = require("react")
-ReactDOM     = require 'react-dom'
-ClickOutside = require('react-click-outside')
-moment       = require("moment")
+import React        from "react"
+import ReactDOM     from 'react-dom'
+import ClickOutside from 'react-click-outside'
+import moment       from "moment"
 
-map      = require('lodash/collection/map')
+import map      from 'lodash/collection/map'
 
-Calendar = require('../components/calendar')
-Week     = require('../components/week')
+import Calendar from '../components/calendar'
+import Week     from '../components/week'
 
 class DatePicker extends React.Component
   displayName: "DatePicker"
@@ -65,4 +65,4 @@ class DatePicker extends React.Component
     else
       @props.toggle()
 
-module.exports = ClickOutside(DatePicker)
+export default ClickOutside(DatePicker)

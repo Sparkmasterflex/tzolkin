@@ -1,24 +1,24 @@
-React    = require "react"
-ReactDOM = require 'react-dom'
-moment   = require "moment"
+import React    from  "react"
+import ReactDOM from  'react-dom'
+import moment   from  "moment"
 
-each = require('lodash/collection/each')
-extend = require('lodash/object/extend')
-{ clone, isArray } = require('lodash/lang')
+import each from 'lodash/collection/each'
+import extend from 'lodash/object/extend'
+import { clone, isArray } from 'lodash/lang'
 
-DatePicker = require('./pickers/date_picker')
-TimePicker = require('./pickers/time_picker')
-DateTimePicker = require('./pickers/datetime_picker')
+import DatePicker from './pickers/date_picker'
+import TimePicker from './pickers/time_picker'
+import DateTimePicker from './pickers/datetime_picker'
 
-Disabler = require('./lib/disabler')
+import Disabler from './lib/disabler'
 
-{
+import {
   ALLOWED_TYPES,
   PICKER_HEIGHT,
   PICKER_WIDTHS
-} = require('../constants')
+} from '../constants'
 
-css = require("./stylesheets")
+import css from "./stylesheets"
 
 # https://en.wikipedia.org/wiki/Tzolk%27in
 class Tzolkin extends React.Component
@@ -216,4 +216,4 @@ TzolkinPlugin = {
     ReactDOM.render <Tzolkin {...config} />, calendar
 }
 
-module.exports = { Tzolkin, TzolkinPlugin }
+export { TzolkinPlugin, Tzolkin }

@@ -21,6 +21,8 @@
 
   &-datetimepicker {
     display: flex;
+    display: -ms-flexbox;
+
     .tzolkin-timepicker {
       position: relative;
       top: initial;

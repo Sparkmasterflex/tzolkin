@@ -16,20 +16,39 @@ module.exports = {
       server: { baseDir: ['public'] }
     })
   ],
+
   module: {
-    loaders: [
-      { test: /\.coffee$/, loader: 'coffee-loader'},
+    rules: [
       {
-        test: /\.cjsx$/,
+        test: /\.coffee$/,
+        use: {
+          loader: 'coffee-loader',
+          options: {
+            transpile: {
+              presets: ['babel-preset-env']
+            }
+          }
+        }
+      },
+      {
+        test: /\.jsx$/,
         exclude: /node_modules/,
-        loaders: ['coffee-loader', 'cjsx-loader']
+        use: {
+          loader: 'coffee-loader',
+          options: {
+            transpile: {
+              presets: ['babel-preset-env', 'react']
+            }
+          }
+        }
       },
       { test: /\.scss$/, loaders: ['style-loader', 'css-loader', 'sass-loader']},
       { test: /\.json$/, loader: 'json-loader' }
     ]
   },
+
   resolve: {
-    extensions: [".js", '.cjsx', ".coffee", ".scss", ".css"],
+    extensions: [".js", '.jsx', ".coffee", ".scss", ".css"],
     alias: {
       React: path.resolve(__dirname, 'node_modules/react'),
       ReactDOM: path.resolve(__dirname, 'node_modules/react-dom')
