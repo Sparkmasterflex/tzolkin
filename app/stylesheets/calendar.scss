@@ -4,6 +4,8 @@
     &__controls {
       display: flex;
       align-items: center;
+      display: -ms-flexbox;
+      -ms-align-items: center;
     }
 
     &__nav {
