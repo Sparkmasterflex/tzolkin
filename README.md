@@ -7,9 +7,6 @@ Tzolk'in (Mayan pronunciation: [t͡sol ˈkʼin], formerly and commonly tzolkin) 
 
 [read more](https://en.wikipedia.org/wiki/Tzolk%27in)
 
-# *STILL IN DEVELOPMENT*
-
-
 ## Install
 
 ```bash
@@ -22,11 +19,13 @@ Tzolk'in (Mayan pronunciation: [t͡sol ˈkʼin], formerly and commonly tzolkin) 
   { Tzolkin } = require('tzolkin')
 
   render: => {
-    <div>
-      <Tzolkin type="datetime">
-        <input defaultValue="3/09/2018" type="input" />
-      </Tzolkin>
-    </div>  
+    return (
+      <div>
+        <Tzolkin type="datetime">
+          <input defaultValue="3/09/2018" type="input" />
+        </Tzolkin>
+      </div>
+    )
   }
 ```
 
