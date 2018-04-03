@@ -18,6 +18,7 @@ class Day extends React.Component
   ==================###
   select_date: (e) =>
     e.preventDefault()
+    return false if !@props.enabled
     @props.set_date(@props.day)
 
 export default Day
