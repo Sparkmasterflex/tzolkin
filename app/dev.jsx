@@ -15,9 +15,9 @@ class MyComponent extends React.Component
         My <em>React</em>ion Time
       </label>
 
-      <Tzolkin type='time' format="h:mm a">
+      <Tzolkin type='datetime'>
         <span>Do it</span>
-        <input defaultValue="12:00 pm" type="text" />
+        <input defaultValue="4/01/2018 12:00 pm" type="text" />
       </Tzolkin>
     </div>
 
@@ -30,9 +30,7 @@ class MyComponent extends React.Component
       date_picker_show: !@state.date_picker_show
 
 
-
-
-export {
+ export default {
   create: (node) ->
     ReactDOM.render <MyComponent />, node
 }

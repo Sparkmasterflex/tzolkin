@@ -1,4 +1,4 @@
-MyComponent = require('./dev')
+import MyComponent from './dev'
 MyComponent.create(document.getElementById('react'))
 
 # { TzolkinPlugin } = require './app'
