@@ -56,6 +56,10 @@ class Tzolkin extends React.Component
     }
 
   componentWillMount: ->
+    window.addEventListener "resize", (e) =>
+      @setState
+        position: @calculate_position()
+
     if this.props.input
       this.input()?.addEventListener 'click', this.display_picker
 
@@ -64,6 +68,9 @@ class Tzolkin extends React.Component
       then document.querySelector(this.props.trigger)
       else this.props.trigger
       trigger.addEventListener 'click', this.display_picker
+
+  componentWillUnmount: ->
+    window.removeEventListener "resize"
 
   render: ->
     <div ref='tzolkin-picker'>
@@ -95,7 +102,7 @@ class Tzolkin extends React.Component
       format:       this.state.format
       step:         this.state.step
       set_date:     this.set_date
-      styles:       this.calculate_position()
+      styles:       this.state.position or this.calculate_position()
       on_open:      this.on_open
       on_close:     this.on_close
       disabler:     this.disabler
