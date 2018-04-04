@@ -1,7 +1,10 @@
 {
   "name": "tzolkin",
   "version": "1.1.2",
-  "license": "ISC",
+  "licenses": [{
+    "type": "MIT",
+    "url": "https://github.com/Sparkmasterflex/tzolkin/blob/master/LICENSE",
+  }],
   "description": "React date/time picker using moment.js",
   "main": "index.js",
   "scripts": {
