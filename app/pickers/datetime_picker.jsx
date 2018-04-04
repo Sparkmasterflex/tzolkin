@@ -80,6 +80,7 @@ class DateTimePicker extends React.Component
     moment("#{date} #{time}")
 
   handleClickOutside: =>
+    # horrible hack to prevent toggle before ready
     if @state.show
       @setState show: !@state.show
     else

@@ -13,7 +13,7 @@ class DatePicker extends React.Component
 
   constructor: (props) ->
     super(props)
-    this.state = {show: true}
+    this.state = { show: true }
 
   componentDidMount: ->
     this.node = ReactDOM.findDOMNode(this)
@@ -60,6 +60,7 @@ class DatePicker extends React.Component
     @props.set_date(date, show, @node)
 
   handleClickOutside: =>
+    # horrible hack to prevent toggle before ready
     if @state.show
       @setState show: !@state.show
     else
