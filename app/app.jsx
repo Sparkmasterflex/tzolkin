@@ -175,15 +175,22 @@ class Tzolkin extends React.Component
     children = if isArray(this.props.children) then this.props.children else [this.props.children]
     children_arr = []
     each children, (el, i) =>
+      ref = (input) =>
+        o = input.props.order
+        return "tzolkin-input-#{o}" if o?
+        "tzolkin-input"
+
       props = {key: "#{el.type}-#{i}"}
-      props = extend(props, {onFocus: @display_picker, ref: "tzolkin-input" }) if el.type is 'input'
+      props = extend(props, { onFocus: @display_picker, ref: ref(el) }) if el.type is 'input'
       children_arr.push React.cloneElement(el, props)
 
     children_arr
 
   input: ->
     # if nested input in JSX
-    return this.refs['tzolkin-input'] if this.refs['tzolkin-input']?
+    refs_query  = 'tzolkin-input'
+    refs_query += "-#{this.state.input_index}" if this.state?.input_index?
+    return this.refs[refs_query] if this.refs[refs_query]?
 
     # nothing to see here
     return unless this.props.input
@@ -212,8 +219,15 @@ class Tzolkin extends React.Component
          EVENTS
   ==================###
   display_picker: (e) =>
-    e?.preventDefault()
-    @setState { show: !@state.show }
+    if e?
+      e.preventDefault()
+      input_index = e.target.getAttribute('order')
+
+    show = (input_index? and input_index isnt @state?.input_index) or !@state.show
+    state = { show: show }
+    extend state, { input_index: input_index } if input_index?
+    @setState state
+
 
 TzolkinPlugin = {
   create: (config) ->
