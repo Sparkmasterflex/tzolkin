@@ -64,15 +64,15 @@ To prevent any browser Date/Time picker UI, use a standard text input vs date, t
 If there are multiple inputs which need to use `Tzolkin` then set `input` key equal to a JavaScript selected element or have different classes for each and pass just the CSS class as a string.
 
 ```javascript
-  Tzolkin  = require('tzolkin');
+  { TzolkinPlugin } = require('tzolkin');
 
   dt_input = document.querySelectorAll('.select-datetime')[0];
   // or $('.select-datetime')[0]
   tm_input = document.querySelectorAll('.select-datetime')[1];
   // or $('.select-datetime')[1]
 
-  Tzolkin.create({ type: 'date', input:  dt_input});
-  Tzolkin.create({ type: 'time', input:  tm_input});
+  TzolkinPlugin.create({ type: 'date', input:  dt_input});
+  TzolkinPlugin.create({ type: 'time', input:  tm_input});
 ```
 
 
@@ -89,6 +89,7 @@ If there are multiple inputs which need to use `Tzolkin` then set `input` key eq
 | step | Integer | For time picker, minutes increments between hours | 15, 30, etc |
 | minDate | String | disable any dates earlier than this date | "01/01/2001" |
 | maxDate | String | disable any dates later than this date | "12/31/2025" |
+| disable | Object  | _see below_ | |
 | onOpen  | callback | _see below_ | |
 | onSelect | callback | _see below_ | |
 | onClose | callback | _see below_ | |
@@ -106,6 +107,34 @@ All options, minus `input` are optional and most have a default value that they 
 | minDate | -2 years | Jan 1st of 2 years ago |
 | maxDate | +2 years | Dec 31st of 2 years in future |
 
+## Disabling Dates and Times
+
+Tzolkin allows selected days of week, months, dates, hours and/or years to disable from user selection. This option expects a JavaScript object with  one or more of the following keys.
+
+| key      | description                                                     |
+|----------|-----------------------------------------------------------------|
+| years    | a list of years where every day will be disabled                |
+| months   | a list of months where every day will be disabled               |
+| dates    | a list of individual dates to be disabled across all months     |
+| days     | all dates that fall under selected days (Monday, Tuesday, etc)  |
+| hours    | a list of hours to be disable from selection                    |
+
+#### Example:
+
+```jsx
+  let disable = {
+    years: [2010, 2012, 2014],
+    months: ["February", "May"],
+    dates: [1, 5, 24],
+    days: ["Sunday", "Saturday"],
+    hours: ["11am", "12am", "1pm"]
+  }
+
+  <Tzolkin type="datetime" disable={disable}>
+    <input defaultValue="3/09/2018 9:30 am" type="input"/>
+  </Tzolkin>
+```
+
 ## Callbacks
 
 Tzolkin allows for 3 callbacks occurring at different points in the lifecycle of the date/time picker.
@@ -121,20 +150,20 @@ Tzolkin allows for 3 callbacks occurring at different points in the lifecycle of
 ```javascript
   Tzolkin.create({
     type: 'datetime',
-    input: '.select-datetime'
+    input: '.select-datetime',
 
-    onOpen: function(date, picker_el, input_el) {
+    onOpen: (date, picker_el, input_el) => {
       console.log("Opening date/time picker");
       console.log(date);
       // ... do something cool ...
     },
 
-    onSelect: function(date, picker_el, input_el) {
+    onSelect: (date, picker_el, input_el) => {
       alert("You picked" + date);
       // ... do something EVEN cooler ...
     },
 
-    onClose: function(date, picker_el, input_el) {
+    onClose: (date, picker_el, input_el) => {
       console.log("Closing date/time picker")
       // ... do something mildly entertaining ...
     }
