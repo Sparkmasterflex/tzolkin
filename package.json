@@ -9,6 +9,10 @@
   ],
   "description": "React date/time picker using moment.js",
   "main": "index.js",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/Sparkmasterflex/tzolkin.git"
+  },
   "scripts": {
     "watch": "webpack --watch -p --config ./webpack.production.config.js --progress --profile --colors",
     "build": "webpack -p --config ./webpack.production.config.js --progress --profile --colors",
