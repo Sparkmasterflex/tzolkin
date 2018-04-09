@@ -59,11 +59,12 @@ class DatePicker extends React.Component
   set_date: (date, show) =>
     @props.set_date(date, show, @node)
 
-  handleClickOutside: =>
+  handleClickOutside: (e) =>
     # horrible hack to prevent toggle before ready
     if @state.show
       @setState show: !@state.show
     else
+      return if e.target.tagName.toUpperCase() == 'INPUT'
       @props.toggle()
 
 export default ClickOutside(DatePicker)

@@ -79,11 +79,12 @@ class DateTimePicker extends React.Component
 
     moment("#{date} #{time}")
 
-  handleClickOutside: =>
+  handleClickOutside: (e) =>
     # horrible hack to prevent toggle before ready
     if @state.show
       @setState show: !@state.show
     else
+      return if e.target.tagName.toUpperCase() == 'INPUT'
       @props.toggle()
 
   ###==================
