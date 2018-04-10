@@ -224,7 +224,7 @@ class Tzolkin extends React.Component
 
   validate_date: (selected_date) ->
     this.errors = []
-    return true unless this.inputs.length
+    return true unless this.inputs?.length
     current_index = this.input().getAttribute('order')
     curr_i = current_index-1
     return true unless current_index? and current_index > 1
