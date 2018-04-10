@@ -22,11 +22,7 @@
     "react"
   ],
   "author": "Sparkmasterflex",
-  "peerDependencies": {
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2",
-    "lodash": "^3.9.1"
-  },
+
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
@@ -43,6 +39,7 @@
     "style-loader": "^0.13.1",
     "webpack": "^3.11.0"
   },
+
   "dependencies": {
     "lodash": "^3.9.1",
     "moment": "^2.19.2",
