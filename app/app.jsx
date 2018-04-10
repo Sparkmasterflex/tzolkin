@@ -2,12 +2,12 @@ import React    from  "react"
 import ReactDOM from  'react-dom'
 import moment   from  "moment"
 
-import each from 'lodash/collection/each'
 import extend from 'lodash/object/extend'
-import { clone, isArray } from 'lodash/lang'
+import { each, map, find } from 'lodash/collection'
+import { clone, isArray }  from 'lodash/lang'
 
-import DatePicker from './pickers/date_picker'
-import TimePicker from './pickers/time_picker'
+import DatePicker     from './pickers/date_picker'
+import TimePicker     from './pickers/time_picker'
 import DateTimePicker from './pickers/datetime_picker'
 
 import Disabler from './lib/disabler'
@@ -76,6 +76,7 @@ class Tzolkin extends React.Component
     <div ref='tzolkin-picker'>
       {this.children()}
       {this.render_picker()}
+      {this.render_errors()}
     </div>
 
   render_picker: ->
@@ -118,6 +119,9 @@ class Tzolkin extends React.Component
       max_date: this.state.max_date
     }, this.picker_props()
 
+  render_errors: ->
+    map this.state.errors, (err, i) -> <p key="error-#{i}">{err}</p>
+
   calculate_position: ->
     {x, left, y, top, width, height} = this.input().getBoundingClientRect()
     height += 5 # padding
@@ -151,9 +155,20 @@ class Tzolkin extends React.Component
     this.setState {selected: selected}
 
   set_date: (d, keep_open=false, node) =>
-    this.input().value = d.format(this.state.format)
-    @on_select(node)
-    @setState {selected: d, show: keep_open}
+    formatted = d.format(@state.format)
+    if @validate_date(d)
+      @input().value = formatted
+      @on_select(node)
+      @setState {
+        selected: d,
+        show: keep_open
+        errors: []
+      }
+    else
+      if @props.onError?
+        @props.onError?(formatted, @errors, node, @input())
+      else
+        @setState {errors: @errors}
 
   readonly: (action) =>
     if action is 'add'
@@ -171,13 +186,17 @@ class Tzolkin extends React.Component
 
   children: ->
     return "" unless this.props.children?
+    this.inputs = []
 
     children = if isArray(this.props.children) then this.props.children else [this.props.children]
     children_arr = []
     each children, (el, i) =>
       ref = (input) =>
         o = input.props.order
-        return "tzolkin-input-#{o}" if o?
+        if o?
+          ref_name = "tzolkin-input-#{o}"
+          @inputs.push ref_name
+          return ref_name
         "tzolkin-input"
 
       props = {key: "#{el.type}-#{i}"}
@@ -202,6 +221,29 @@ class Tzolkin extends React.Component
   show_datepicker: ->
     return this.props.visible if this.props.visible?
     this.state.show           if this.state.show?
+
+  validate_date: (selected_date) ->
+    this.errors = []
+    return true unless this.inputs.length
+    current_index = this.input().getAttribute('order')
+    curr_i = current_index-1
+    return true unless current_index? and current_index > 1
+    valid_compared_to = map this.inputs, (ref, i) =>
+      compared_to = moment(@refs[ref].value, @state.format)
+      if i < curr_i
+        err = "before"
+        valid = selected_date.isAfter(compared_to)
+      else if i > curr_i
+        err = "after"
+        valid = selected_date.isBefore(moment(@refs[ref].value, @state.format))
+      else
+        valid = true
+      this.errors.push "#{selected_date.format(@state.format)} cannot be #{err} #{compared_to.format(@state.format)}" unless valid
+      valid
+
+    !find(valid_compared_to, (v) -> v is false)? # return true if none invalid
+
+
 
   ###==================
         CALLBACKS

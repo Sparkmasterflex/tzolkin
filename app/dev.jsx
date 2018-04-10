@@ -15,9 +15,10 @@ class MyComponent extends React.Component
         My <em>React</em>ion Time
       </label>
 
-      <Tzolkin type='datetime'>
-        <span>Do it</span>
-        <input defaultValue="4/01/2018 12:00 pm" type="text" />
+      <Tzolkin type='datetime' onError={this.error_that_shit}>
+        <input defaultValue="4/01/2018 12:00 pm" type="text" order={1} />
+        <input defaultValue="4/04/2018 12:00 pm" type="text" order={2} />
+        <input defaultValue="4/04/2018 12:00 pm" type="text" order={3} />
       </Tzolkin>
     </div>
 
@@ -28,6 +29,13 @@ class MyComponent extends React.Component
   show_datepicker: (e) =>
     @setState
       date_picker_show: !@state.date_picker_show
+
+  error_that_shit: (date, errors, node, input) =>
+    console.log date
+    console.log errors
+    console.log node
+    console.log input
+
 
 
  export default {
