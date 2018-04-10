@@ -1,6 +1,6 @@
 {
   "name": "tzolkin",
-  "version": "1.1.6",
+  "version": "1.2.0",
   "license": "(MIT OR Apache-2.0)",
   "description": "React date/time picker using moment.js",
   "main": "index.js",
@@ -22,7 +22,6 @@
     "react"
   ],
   "author": "Sparkmasterflex",
-
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
@@ -39,7 +38,6 @@
     "style-loader": "^0.13.1",
     "webpack": "^3.11.0"
   },
-
   "dependencies": {
     "lodash": "^3.9.1",
     "moment": "^2.19.2",
