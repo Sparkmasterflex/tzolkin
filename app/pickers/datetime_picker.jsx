@@ -92,11 +92,11 @@ class DateTimePicker extends React.Component
   ==================###
   set_date: (date) =>
     @setState {date: date.format("YYYY-MM-DD")}, =>
-      @props.set_date(@concat_selected(date, 'date'), !@state.time?, this.node)
+      @props.set_date(@concat_selected(date, 'date'), true, this.node)
 
   set_time: (time) =>
     @setState {time: time.format("HH:mm")}, =>
-      @props.set_date(@concat_selected(time, 'time'), !@state.date?, this.node)
+      @props.set_date(@concat_selected(time, 'time'), false, this.node)
 
 
 export default ClickOutside(DateTimePicker)
