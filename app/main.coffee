@@ -2,6 +2,7 @@
 # MyComponent.create(document.getElementById('react'))
 
 { TzolkinPlugin } = require './app'
+
 document.querySelectorAll('.select-datetime').forEach (input) ->
   t = input.nextElementSibling
   trigger = t if /select-date-calendar/.test(t.className)
@@ -12,7 +13,8 @@ document.querySelectorAll('.select-datetime').forEach (input) ->
     trigger: trigger
     step: 15
 
-    onOpen: (date) -> console.log 'open'
+    onOpen: (date) ->
+      setTimeout tz.close, 2000
 
     onSelect: ->
       console.log 'selected'
@@ -20,4 +22,4 @@ document.querySelectorAll('.select-datetime').forEach (input) ->
     onClose: ->
       console.log 'close!'
 
-  TzolkinPlugin.create configs
+  tz = new TzolkinPlugin().create(configs)

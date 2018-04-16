@@ -273,15 +273,17 @@ class Tzolkin extends React.Component
       position: @calculate_position()
 
 
-TzolkinPlugin = {
-  create: (config) ->
-    calendar = document.createElement('div')
-    calendar.className = "tzolkin"
-    document.body.appendChild calendar
-    ReactDOM.render <Tzolkin {...config} />, calendar
+class TzolkinPlugin
+  constructor: -> this
 
-  close: ->
-    ReactDOM.unmountComponentAtNode document.getElementsByClassName('tzolkin')[0]
-}
+  create: (configs) ->
+    this.calendar = document.createElement('div')
+    this.calendar.className = "tzolkin"
+    document.body.appendChild this.calendar
+    this.tz = ReactDOM.render <Tzolkin {...configs} />, this.calendar
+    this
+
+  close: =>
+    @tz.setState { show: false }
 
 export { TzolkinPlugin, Tzolkin }
