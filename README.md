@@ -39,8 +39,8 @@ Tzolk'in (Mayan pronunciation: [t͡sol ˈkʼin], formerly and commonly tzolkin) 
 
 To prevent any browser Date/Time picker UI, use a standard text input vs date, time or datetime.
 
-#### JS: 
 
+#### TzolkinPlugin v1.x.x JS: 
 ```javascript
   { TzolkinPlugin } = require('tzolkin');
 
@@ -48,6 +48,19 @@ To prevent any browser Date/Time picker UI, use a standard text input vs date, t
     type: 'datetime',
     input: '.select-datetime'
   })
+```
+
+#### TzolkinPlugin v2.x.x JS: 
+```javascript
+  { TzolkinPlugin } = require('tzolkin');
+
+  tz = new TzolkinPlugin().create({
+    type: 'datetime',
+    input: '.select-datetime'
+  })
+
+  // if you need to:
+  tz.close()
 ```
 
 
