@@ -56,9 +56,7 @@ class Tzolkin extends React.Component
     }
 
   componentWillMount: ->
-    window.addEventListener "resize", (e) =>
-      @setState
-        position: @calculate_position()
+    window.addEventListener "resize", this.recalculate
 
     if this.props.input
       this.input()?.addEventListener 'click', this.display_picker
@@ -70,7 +68,7 @@ class Tzolkin extends React.Component
       trigger.addEventListener 'click', this.display_picker
 
   componentWillUnmount: ->
-    window.removeEventListener "resize"
+    window.removeEventListener "resize", this.recalculate
 
   render: ->
     <div ref='tzolkin-picker'>
@@ -270,6 +268,10 @@ class Tzolkin extends React.Component
     extend state, { input_index: input_index } if input_index?
     @setState state
 
+  recalculate: (e) =>
+    @setState
+      position: @calculate_position()
+
 
 TzolkinPlugin = {
   create: (config) ->
@@ -277,6 +279,9 @@ TzolkinPlugin = {
     calendar.className = "tzolkin"
     document.body.appendChild calendar
     ReactDOM.render <Tzolkin {...config} />, calendar
+
+  close: ->
+    ReactDOM.unmountComponentAtNode document.getElementsByClassName('tzolkin')[0]
 }
 
 export { TzolkinPlugin, Tzolkin }
