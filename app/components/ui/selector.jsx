@@ -37,9 +37,11 @@ class Selector extends React.Component
   calculate_position: ->
     selector = this.refs.selector
     {x, y, width, height} = selector.getBoundingClientRect()
+
     height += 5 # padding
 
     selector_height = (SELECTOR_OPTION_HEIGHT * this.props.options.length)
+    selector_height = 320 if selector_height > 320
     top = if y + selector_height > window.innerHeight
     then (height + selector_height) * -1
     else height

@@ -13,8 +13,7 @@ document.querySelectorAll('.select-datetime').forEach (input) ->
     trigger: trigger
     step: 15
 
-    onOpen: (date) ->
-      setTimeout tz.close, 2000
+    onOpen: (date) -> console.log "don't close that..."
 
     onSelect: ->
       console.log 'selected'
