@@ -7,6 +7,8 @@ import map      from 'lodash/collection/map'
 import Calendar from '../components/calendar'
 import Week     from '../components/week'
 
+import { SQL_FORMAT } from '../../constants'
+
 class DatePicker extends React.Component
   displayName: "DatePicker"
 
@@ -42,12 +44,12 @@ class DatePicker extends React.Component
   render_weeks: ->
     date      = this.props.selected
     first_day = date.startOf('month')
-    weeks     = Math.floor(date.daysInMonth()/7)
+    weeks     = Math.floor(date.daysInMonth/7)
     map [0..weeks], (w) =>
       <Week
         key="week-#{w}"
         week_num={w}
-        first_day={first_day.format("YYYY-MM-DD")}
+        first_day={first_day.toFormat(SQL_FORMAT)}
         selected={@props.selected}
         min_date={@props.min_date}
         max_date={@props.max_date}

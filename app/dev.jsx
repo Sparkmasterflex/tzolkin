@@ -15,10 +15,8 @@ class MyComponent extends React.Component
         My <em>React</em>ion Time
       </label>
 
-      <Tzolkin type='datetime' onError={this.error_that_shit}>
-        <input defaultValue="4/01/2018 12:00 pm" type="text" order={1} />
-        <input defaultValue="4/04/2018 12:00 pm" type="text" order={2} />
-        <input defaultValue="4/04/2018 12:00 pm" type="text" order={3} />
+      <Tzolkin type='date' onError={this.error_that_shit}>
+        <input defaultValue="4/04/2018" type="text" />
       </Tzolkin>
     </div>
 
