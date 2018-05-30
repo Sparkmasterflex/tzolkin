@@ -1,7 +1,6 @@
 import React        from "react"
 import ReactDOM     from 'react-dom'
 import ClickOutside from 'react-click-outside'
-import moment       from "moment"
 
 import map      from 'lodash/collection/map'
 
