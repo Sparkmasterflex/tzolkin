@@ -1,14 +1,17 @@
 import React        from "react"
 import ReactDOM     from 'react-dom'
 import ClickOutside from 'react-click-outside'
-import moment       from "moment"
 
 import map      from 'lodash/collection/map'
 import clone    from 'lodash/lang/clone'
 
+import { DateTime } from "luxon"
+
 import Calendar   from '../components/calendar'
 import Week       from '../components/week'
 import TimePicker from './time_picker'
+
+import { SQL_FORMAT } from '../../constants'
 
 class DateTimePicker extends React.Component
   displayName: "DateTimePicker"
@@ -54,13 +57,13 @@ class DateTimePicker extends React.Component
     </div>
 
   render_weeks: ->
-    date      = moment(this.props.selected.format("YYYY-MM-DD"))
+    date      = this.props.selected
     first_day = date.startOf('month')
-    weeks     = Math.floor(date.daysInMonth()/7)
+    weeks     = Math.floor(date.daysInMonth/7)
     map [0..weeks], (w) =>
       <Week
         week_num={w}
-        first_day={first_day.format("YYYY-MM-DD")}
+        first_day={first_day.toFormat(SQL_FORMAT)}
         key="week-#{w}"
         selected={this.props.selected}
         min_date={@props.min_date}
@@ -71,13 +74,12 @@ class DateTimePicker extends React.Component
 
   concat_selected: (val, part) ->
     if part is 'time'
-      time = val.format("HH:mm")
-      date = this.state.date or this.props.selected.format("YYYY-MM-DD")
+      time = val.toFormat("HH:mm")
+      date = this.state.date or this.props.selected.toFormat(SQL_FORMAT)
     else
-      date = val.format("YYYY-MM-DD")
-      time = this.state.time or this.props.selected.format("HH:mm")
-
-    moment("#{date} #{time}")
+      date = val.toFormat(SQL_FORMAT)
+      time = this.state.time or this.props.selected.toFormat("HH:mm")
+    DateTime.fromFormat("#{date} #{time}", "#{SQL_FORMAT} HH:mm")
 
   handleClickOutside: (e) =>
     # horrible hack to prevent toggle before ready
@@ -91,11 +93,11 @@ class DateTimePicker extends React.Component
          EVENTS
   ==================###
   set_date: (date) =>
-    @setState {date: date.format("YYYY-MM-DD")}, =>
+    @setState {date: date.toFormat(SQL_FORMAT)}, =>
       @props.set_date(@concat_selected(date, 'date'), true, this.node)
 
   set_time: (time) =>
-    @setState {time: time.format("HH:mm")}, =>
+    @setState {time: time.toFormat("HH:mm")}, =>
       @props.set_date(@concat_selected(time, 'time'), false, this.node)
 
 

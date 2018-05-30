@@ -1,6 +1,6 @@
 import React    from  "react"
 import ReactDOM from  'react-dom'
-import moment   from  "moment"
+import { DateTime } from "luxon"
 
 import extend from 'lodash/object/extend'
 import { each, map, find } from 'lodash/collection'
@@ -15,7 +15,8 @@ import Disabler from './lib/disabler'
 import {
   ALLOWED_TYPES,
   PICKER_HEIGHT,
-  PICKER_WIDTHS
+  PICKER_WIDTHS,
+  SQL_FORMAT
 } from '../constants'
 
 import css from "./stylesheets"
@@ -33,25 +34,25 @@ class Tzolkin extends React.Component
     delete unclean_props.maxDate
 
     configs = extend this.defaults(props?.type), unclean_props
-    min = moment(minDate, configs.format, unclean_props.type is "date") if minDate?
-    max = moment(maxDate, configs.format, unclean_props.type is "date") if maxDate?
+    min = DateTime.fromFormat(minDate, configs.format) if minDate?
+    max = DateTime.fromFormat(maxDate, configs.format) if maxDate?
     configs.min_date = min if min?.isValid()
     configs.max_date = max if max?.isValid()
     this.state = extend { show: false }, configs
 
   defaults: (type='date') ->
     format = switch type
-      when 'date'     then "MM/DD/YYYY"
-      when 'datetime' then "MM/DD/YYYY h:mm a"
+      when 'date'     then "LL/dd/yyyy"
+      when 'datetime' then "LL/dd/yyyy h:mm a"
       when 'time'     then "h:mm a"
 
     date = this.date(format)
     {
       type: type
-      default: date.format("YYYY-MM-DD HH:mm:ss")
+      default: date.toFormat("#{SQL_FORMAT} HH:mm:ss")
       selected: date
-      min_date: moment({month: '0', day: '01'}).subtract(2, 'y')
-      max_date: moment({month: '11', day: '31'}).add(2, 'y')
+      min_date: DateTime.fromObject({month: 1, day: 1}).minus(years: 2)
+      max_date: DateTime.fromObject({month: 12, day: 31}).plus(years: 2)
       format: format
     }
 
@@ -71,10 +72,10 @@ class Tzolkin extends React.Component
     window.removeEventListener "resize", this.recalculate
 
   render: ->
+    # {this.render_errors()}
     <div ref='tzolkin-picker'>
       {this.children()}
       {this.render_picker()}
-      {this.render_errors()}
     </div>
 
   render_picker: ->
@@ -138,22 +139,22 @@ class Tzolkin extends React.Component
     { top: "#{top}px", left: "#{left}px" }
 
   switch_month: (direction, num) =>
-    @switch_to('month', direction, num)
+    @switch_to({months: num}, direction)
 
   switch_year: (direction, num) =>
-    @switch_to('year', direction, num)
+    @switch_to({years: num}, direction)
 
-  switch_to: (unit, direction, num) ->
+  switch_to: (change, direction) ->
     selected = this.state.selected
     if direction is 'subtract'
-      selected.subtract(num, unit)
+      selected.minus(change)
     else
-      selected.add(num, unit)
+      selected.plus(change)
 
     this.setState {selected: selected}
 
   set_date: (d, keep_open=false, node) =>
-    formatted = d.format(@state.format)
+    formatted = d.toFormat(@state.format)
     if @validate_date(d)
       @input().value = formatted
       @on_select(node)
@@ -176,11 +177,11 @@ class Tzolkin extends React.Component
 
   date: (format)->
     format ?= this.state.format
-    return moment(this.props.date, format) if this.props.date?
+    return DateTime.fromFormat(this.props.date, format) if this.props.date?
 
     input = this.input()
-    return moment(input.value, format) if input? and input.value isnt ""
-    return moment()
+    return DateTime.fromFormat(input.value, format) if input? and input.value isnt ""
+    return DateTime.local()
 
   children: ->
     return "" unless this.props.children?
@@ -227,33 +228,34 @@ class Tzolkin extends React.Component
     curr_i = current_index-1
     return true unless current_index? and current_index > 1
     valid_compared_to = map this.inputs, (ref, i) =>
-      compared_to = moment(@refs[ref].value, @state.format)
+      compared_to = DateTime.fromFormat(@refs[ref].value, @state.format)
       if i < curr_i
         err = "before"
-        valid = selected_date.isAfter(compared_to)
+        valid = selected_date > compared_to
       else if i > curr_i
         err = "after"
-        valid = selected_date.isBefore(moment(@refs[ref].value, @state.format))
+        valid = selected_date < DateTime.fromFormat(@refs[ref].value, @state.format)
+        valid = false
       else
         valid = true
-      this.errors.push "#{selected_date.format(@state.format)} cannot be #{err} #{compared_to.format(@state.format)}" unless valid
+      this.errors.push "#{selected_date.toFormat(@state.format)} cannot be #{err} #{compared_to.toFormat(@state.format)}" unless valid
       valid
 
     !find(valid_compared_to, (v) -> v is false)? # return true if none invalid
-
 
 
   ###==================
         CALLBACKS
   ==================###
   on_open: (node) =>
-    @props.onOpen?(@state.selected.format(@state.format), node, @input())
+    @props.onOpen?(@state.selected.toFormat(@state.format), node, @input())
 
   on_select: (node) =>
-    @props.onSelect?(@state.selected.format(@state.format), node, @input())
+    @props.onSelect?(@state.selected.toFormat(@state.format), node, @input())
 
   on_close: (node) =>
-    @props.onClose?(@state.selected.format(@state.format), node, @input())
+    @props.onClose?(@state.selected.toFormat(@state.format), node, @input())
+
 
   ###==================
          EVENTS

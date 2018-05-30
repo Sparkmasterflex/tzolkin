@@ -1,6 +1,7 @@
 import React from "react"
-import moment from "moment"
 import map from 'lodash/collection/map'
+
+import { DateTime, Info } from "luxon"
 
 import Selector from './ui/selector'
 
@@ -21,20 +22,20 @@ class Calendar extends React.Component
           href='#today'
           className='tzolkin-calendar__nav tzicon tzhome'
           onClick={this.set_today}
-          title={moment().format(this.props.format)}
+          title={DateTime.local().toFormat(this.props.format)}
         ></a>
 
         <Selector
-          selected={moment(this.props.date).format("MMMM")}
+          selected={this.props.date.toFormat("LLLL")}
           list='month'
-          options={moment.months()}
+          options={Info.months('long')}
           change_selection={this.select_month}
           disabler={this.props.disabler}
         />
         <Selector
-          selected={moment(this.props.date).format("YYYY")}
+          selected={this.props.date.toFormat("yyyy")}
           list='year'
-          options={[this.props.min_date.year()..this.props.max_date.year()]}
+          options={[this.props.min_date.year..this.props.max_date.year]}
           change_selection={this.select_year}
           disabler={this.props.disabler}
         />
@@ -49,7 +50,7 @@ class Calendar extends React.Component
 
       <div className='tzolkin-month'>
         <div className='tzolkin-week--days'>
-          { map moment.weekdaysShort(), (wday) ->
+          { map Info.weekdays('short'), (wday) ->
             <div key={wday} className='tzolkin-day--names'>{wday}</div>
           }
         </div>
@@ -58,12 +59,12 @@ class Calendar extends React.Component
     </div>
 
   month_name: (prev_next) ->
-    dt = moment(this.props.date)
+    dt = this.props.date
     alt_dt = if prev_next is 'previous'
-    then dt.subtract(1, 'month')
-    else dt.add(1, 'month')
+    then dt.minus(months: 1)
+    else dt.plus(months: 1)
 
-    alt_dt.format("MMMM")
+    alt_dt.toFormat("LLLL")
 
   ###==================
          EVENTS
@@ -78,12 +79,12 @@ class Calendar extends React.Component
 
   set_today: (e) =>
     e.preventDefault()
-    @props.set_date(moment(), true)
+    @props.set_date(DateTime.local(), true)
 
   select_year: (e) =>
     e.preventDefault()
-    new_year     = moment().year(e.target.dataset.value).year()
-    current_year = @props.date.year()
+    new_year     = DateTime.fromObject(year: e.target.dataset.value).year
+    current_year = @props.date.year
     args = if new_year > current_year then ['add', (new_year - current_year)]
     else if new_year < current_year then ['subtract', (current_year - new_year)]
     else null
@@ -92,8 +93,8 @@ class Calendar extends React.Component
 
   select_month: (e) =>
     e.preventDefault()
-    new_month     = moment().month(e.target.dataset.value).month()
-    current_month = @props.date.month()
+    new_month     = DateTime.fromObject(month: e.target.dataset.value).month
+    current_month = @props.date.month
     args = if new_month > current_month then ['add', (new_month - current_month)]
     else if new_month < current_month then ['subtract', (current_month - new_month)]
     else null

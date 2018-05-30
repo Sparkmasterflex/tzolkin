@@ -1,10 +1,11 @@
 import React        from "react"
 import ReactDOM     from 'react-dom'
 import ClickOutside from 'react-click-outside'
-import moment       from "moment"
 
 import { each, map } from 'lodash/collection'
 import flatten       from 'lodash/array/flatten'
+
+import { DateTime } from "luxon"
 
 import Calendar from '../components/calendar'
 import Week from '../components/week'
@@ -85,14 +86,14 @@ class TimePicker extends React.Component
 
   render_time_li: (hour, minute, ampm) ->
     hour_24 = if ampm? and ampm is 'pm' then hour+12 else hour
-    is_current_hour = hour_24 is this.props.selected.hour()
-    is_closest_minute = this.props.selected.minute()-this.props.step < parseInt(minute) <= this.props.selected.minute()
+    is_current_hour = hour_24 is this.props.selected.hour
+    is_closest_minute = this.props.selected.minute-this.props.step < parseInt(minute) <= this.props.selected.minute
     klass = ""
     klass += "tzolkin-selected" if is_current_hour and is_closest_minute
     klass += " disabled" if this.props.disabler.is_disabled(hour_24, 'hour')
     minute = "0#{minute}" if minute.toString().length is 1
 
-    date_time = moment().set {
+    date_time = DateTime.local().set {
       hour: hour_24,
       minute: minute
     }
@@ -104,7 +105,7 @@ class TimePicker extends React.Component
       data-minute={minute}
       className={klass}
       style={{width: this.list_width() - 2}}
-    >{date_time.format(this.format())}</li>
+    >{date_time.toFormat(this.format())}</li>
 
   hours: ->
     if /H/.test this.props.format
@@ -155,7 +156,7 @@ class TimePicker extends React.Component
 
   select_time: (e) =>
     data = e.target.dataset
-    date_time = moment().set {
+    date_time = DateTime.local().set {
       hour: data.hour
       minute: data.minute
     }

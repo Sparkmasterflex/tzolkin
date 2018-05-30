@@ -1,5 +1,4 @@
 import React  from "react"
-import moment from "moment"
 
 class Day extends React.Component
   displayName: "Day"
@@ -10,7 +9,7 @@ class Day extends React.Component
     klass += '--selected' if this.props.enabled and this.props.selected
 
     <div className={klass} onClick={this.select_date}>
-      {this.props.day.format("DD")}
+      {this.props.day.toFormat("dd")}
     </div>
 
   ###==================
