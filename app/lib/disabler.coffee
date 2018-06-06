@@ -1,3 +1,4 @@
+import { DateTime } from "luxon"
 
 import {
   each,
@@ -6,6 +7,8 @@ import {
 }       from 'lodash/collection'
 import keys    from 'lodash/object/keys'
 import flatten from 'lodash/array/flatten'
+
+import { SQL_FORMAT } from '../../constants'
 
 class Disabler
   constructor: (disable) ->
@@ -36,25 +39,23 @@ class Disabler
       list = @configs[type]
       return false if list?.length is 0
       disable[type] = switch type
-        when 'years'  then @disabled_year(dt.format("YYYY"))
-        when 'months' then @disabled_month(dt.format("MMMM"))
-        when 'days'   then list.indexOf(dt.format("dddd")) >= 0
-        when 'dates'  then list.indexOf(parseInt(dt.format("DD"))) >= 0
-        when 'hours'  then @disabled_hour(dt.format("h:mma"))
+        when 'years'  then @disabled_year(dt.toFormat("yyyy"))
+        when 'months' then @disabled_month(dt.toFormat("LLLL"))
+        when 'days'   then list.indexOf(dt.toFormat("cccc")) >= 0
+        when 'dates'  then list.indexOf(parseInt(dt.toFormat("dd"))) >= 0
 
       disables = filter disable, (value, key) -> value
       disabled_list.push(disables)
-    this.used = true
 
     return true if flatten(disabled_list).length
     false
 
   disabled_hour: (hour) ->
     return false unless this.configs?
-    today = moment().format("YYYY-MM-DD")
+    today = DateTime.local().toFormat(SQL_FORMAT)
     matched_hour = find this.configs.hours, (h) =>
-      return null if @used
-      disabled_hour = moment("#{today} #{h}", "YYYY-MM-DD h:mma").format("H")
+
+      disabled_hour = DateTime.fromFormat("#{today} #{h}", "#{SQL_FORMAT} ha").toFormat("H")
       parseInt(disabled_hour) is parseInt(hour)
 
     matched_hour?
@@ -66,7 +67,7 @@ class Disabler
 
   disabled_year: (year) ->
     return false unless this.configs?
-    matched_year = find this.configs.years, (y) -> y is year
+    matched_year = find this.configs.years, (y) -> y is parseInt(year)
     matched_year?
 
 export default Disabler
