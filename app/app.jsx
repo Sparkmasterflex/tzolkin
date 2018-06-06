@@ -146,12 +146,12 @@ class Tzolkin extends React.Component
 
   switch_to: (change, direction) ->
     selected = this.state.selected
-    if direction is 'subtract'
+    new_date = if direction is 'subtract'
       selected.minus(change)
     else
       selected.plus(change)
 
-    this.setState {selected: selected}
+    this.setState {selected: new_date}
 
   set_date: (d, keep_open=false, node) =>
     formatted = d.toFormat(@state.format)

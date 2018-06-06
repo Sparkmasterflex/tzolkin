@@ -83,7 +83,7 @@ class Calendar extends React.Component
 
   select_year: (e) =>
     e.preventDefault()
-    new_year     = DateTime.fromObject(year: e.target.dataset.value).year
+    new_year     = DateTime.local().set(year: e.target.dataset.value).year
     current_year = @props.date.year
     args = if new_year > current_year then ['add', (new_year - current_year)]
     else if new_year < current_year then ['subtract', (current_year - new_year)]
@@ -93,8 +93,10 @@ class Calendar extends React.Component
 
   select_month: (e) =>
     e.preventDefault()
-    new_month     = DateTime.fromObject(month: e.target.dataset.value).month
+    month_num     = Info.months('long').indexOf(e.target.dataset.value) + 1
+    new_month     = DateTime.local().set(month: month_num).month
     current_month = @props.date.month
+
     args = if new_month > current_month then ['add', (new_month - current_month)]
     else if new_month < current_month then ['subtract', (current_month - new_month)]
     else null
