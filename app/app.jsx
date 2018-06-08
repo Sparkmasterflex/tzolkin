@@ -234,8 +234,7 @@ class Tzolkin extends React.Component
         valid = selected_date > compared_to
       else if i > curr_i
         err = "after"
-        valid = selected_date < DateTime.fromFormat(@refs[ref].value, @state.format)
-        valid = false
+        valid = selected_date < compared_to
       else
         valid = true
       this.errors.push "#{selected_date.toFormat(@state.format)} cannot be #{err} #{compared_to.toFormat(@state.format)}" unless valid
