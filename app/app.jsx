@@ -283,6 +283,9 @@ class TzolkinPlugin
     this.tz = ReactDOM.render <Tzolkin {...configs} />, this.calendar
     this
 
+  update: (configs) ->
+    this.tz.setState configs
+
   close: =>
     @tz.setState { show: false }
 
