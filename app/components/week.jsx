@@ -9,7 +9,9 @@ class Week extends React.Component
 
   render: ->
     {week_num, first_day} = this.props
-    which_day = moment(first_day).add(week_num, 'week')
+    which_day = if week_num is 0
+    then moment(first_day).add(week_num, 'week')
+    else moment(first_day).add(week_num, 'week').startOf('week')
 
     <div className="tzolkin-week" key="week-#{week_num}">
       {map [0..6], (d) =>
