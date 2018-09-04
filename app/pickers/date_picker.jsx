@@ -8,6 +8,8 @@ import map      from 'lodash/collection/map'
 import Calendar from '../components/calendar'
 import Week     from '../components/week'
 
+import { MAX_BLOCKS } from '../../constants'
+
 class DatePicker extends React.Component
   displayName: "DatePicker"
 
@@ -43,7 +45,12 @@ class DatePicker extends React.Component
   render_weeks: ->
     date      = this.props.selected
     first_day = date.startOf('month')
-    weeks     = Math.floor(date.daysInMonth()/7)
+    first_day_offset = first_day.day()
+    days_in_month = first_day.daysInMonth()
+
+    weeks  = Math.floor(this.selected_date().daysInMonth()/7)
+    weeks += 1 if (first_day_offset + days_in_month) > MAX_BLOCKS
+
     map [0..weeks], (w) =>
       <Week
         key="week-#{w}"
@@ -56,6 +63,12 @@ class DatePicker extends React.Component
         set_date={@set_date}
       />
 
+  selected_date: ->
+    moment(this.props.selected.format("YYYY-MM-DD"))
+
+  ###==================
+         EVENTS
+  ==================###
   set_date: (date, show) =>
     @props.set_date(date, show, @node)
 

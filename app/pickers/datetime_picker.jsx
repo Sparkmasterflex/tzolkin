@@ -10,6 +10,8 @@ import Calendar   from '../components/calendar'
 import Week       from '../components/week'
 import TimePicker from './time_picker'
 
+import { MAX_BLOCKS } from '../../constants'
+
 class DateTimePicker extends React.Component
   displayName: "DateTimePicker"
 
@@ -54,9 +56,14 @@ class DateTimePicker extends React.Component
     </div>
 
   render_weeks: ->
-    date      = moment(this.props.selected.format("YYYY-MM-DD"))
-    first_day = date.startOf('month')
-    weeks     = Math.floor(date.daysInMonth()/7)
+    first_day = this.selected_date().startOf('month')
+
+    first_day_offset = first_day.day()
+    days_in_month = first_day.daysInMonth()
+
+    weeks  = Math.floor(this.selected_date().daysInMonth()/7)
+    weeks += 1 if (first_day_offset + days_in_month) > MAX_BLOCKS
+
     map [0..weeks], (w) =>
       <Week
         week_num={w}
@@ -86,6 +93,9 @@ class DateTimePicker extends React.Component
     else
       return if e.target.tagName.toUpperCase() == 'INPUT'
       @props.toggle()
+
+  selected_date: ->
+    moment(this.props.selected.format("YYYY-MM-DD"))
 
   ###==================
          EVENTS
