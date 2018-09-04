@@ -1,6 +1,6 @@
 {
   "name": "tzolkin",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "license": "(MIT OR Apache-2.0)",
   "description": "React date/time picker using moment.js",
   "main": "index.js",
