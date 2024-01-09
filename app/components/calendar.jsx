@@ -1,6 +1,5 @@
 import React from "react"
 import moment from "moment"
-import map from 'lodash/collection/map'
 
 import Selector from './ui/selector'
 
@@ -49,7 +48,7 @@ class Calendar extends React.Component
 
       <div className='tzolkin-month'>
         <div className='tzolkin-week--days'>
-          { map moment.weekdaysShort(), (wday) ->
+          { moment.weekdaysShort().map (wday) ->
             <div key={wday} className='tzolkin-day--names'>{wday}</div>
           }
         </div>

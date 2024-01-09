@@ -2,7 +2,6 @@ import React    from  "react"
 import ReactDOM from  'react-dom'
 import moment   from  "moment"
 
-import extend from 'lodash/object/extend'
 import { each, map, find } from 'lodash/collection'
 import { clone, isArray }  from 'lodash/lang'
 
@@ -32,12 +31,12 @@ class Tzolkin extends React.Component
     delete unclean_props.minDate
     delete unclean_props.maxDate
 
-    configs = extend this.defaults(props?.type), unclean_props
+    configs = {...this.defaults(props?.type), ...unclean_props}
     min = moment(minDate, configs.format, unclean_props.type is "date") if minDate?
     max = moment(maxDate, configs.format, unclean_props.type is "date") if maxDate?
     configs.min_date = min if min?.isValid()
     configs.max_date = max if max?.isValid()
-    this.state = extend { show: false }, configs
+    this.state = { show: false, ...configs }
 
   defaults: (type='date') ->
     format = switch type
@@ -110,12 +109,13 @@ class Tzolkin extends React.Component
     }
 
   datepicker_props: ->
-    extend {
+    {
       switch_month: this.switch_month
       switch_year: this.switch_year
       min_date: this.state.min_date
       max_date: this.state.max_date
-    }, this.picker_props()
+      ...this.picker_props()
+    }
 
   render_errors: ->
     map this.state.errors, (err, i) -> <p key="error-#{i}">{err}</p>

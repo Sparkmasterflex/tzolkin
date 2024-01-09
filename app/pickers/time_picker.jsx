@@ -4,7 +4,6 @@ import ClickOutside from 'react-click-outside'
 import moment       from "moment"
 
 import { each, map } from 'lodash/collection'
-import flatten       from 'lodash/array/flatten'
 
 import Calendar from '../components/calendar'
 import Week from '../components/week'
@@ -50,12 +49,13 @@ class TimePicker extends React.Component
         options = @build_time_options(hour_block, ampm)
         hours_el.push options
         ampm = 'pm'
+    hours_el = hours_el.flat(Infinity)
 
     <div className='tzolkin-timelist' style={{width: this.list_width()}}>
       <ul
         className='tzolkin-timelist-ul'
         style={{top: "#{this.state.top}px"}}
-      >{flatten(hours_el)}</ul>
+      >{hours_el}</ul>
     </div>
 
   format: ->
@@ -81,7 +81,7 @@ class TimePicker extends React.Component
       while min < 60
         lis.push @render_time_li(h, min, ampm)
         min += @props.step
-    return flatten(lis)
+    return lis.flat(Infinity)
 
   render_time_li: (hour, minute, ampm) ->
     hour_24 = if ampm? and ampm is 'pm' then hour+12 else hour

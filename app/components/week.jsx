@@ -1,6 +1,5 @@
 import React  from "react"
 import moment from "moment"
-import map    from 'lodash/collection/map'
 
 import Day    from './day'
 
@@ -14,7 +13,7 @@ class Week extends React.Component
     else moment(first_day).add(week_num, 'week').startOf('week')
 
     <div className="tzolkin-week" key="week-#{week_num}">
-      {map [0..6], (d) =>
+      {[0..6].map (d) =>
         day = moment(which_day.format("YYYY-MM-DD")).startOf('week').add(d, 'day')
         <Day
           key="day-#{week_num}-#{d}"
