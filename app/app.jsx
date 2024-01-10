@@ -198,7 +198,7 @@ class Tzolkin extends React.Component
         "tzolkin-input"
 
       props = {key: "#{el.type}-#{i}"}
-      props = extend(props, { onFocus: @display_picker, ref: ref(el) }) if el.type is 'input'
+      props = {...props, onFocus: @display_picker, ref: ref(el) } if el.type is 'input'
       children_arr.push React.cloneElement(el, props)
 
     children_arr
@@ -265,7 +265,7 @@ class Tzolkin extends React.Component
 
     show = (input_index? and input_index isnt @state?.input_index) or !@state.show
     state = { show: show }
-    extend state, { input_index: input_index } if input_index?
+    state = {...state, input_index: input_index } if input_index?
     @setState state
 
   recalculate: (e) =>
