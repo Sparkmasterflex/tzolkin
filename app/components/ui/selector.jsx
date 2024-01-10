@@ -1,6 +1,5 @@
 import React from "react"
 import moment from "moment"
-import map from 'lodash/collection/map'
 
 import {
   PICKER_HEIGHT,
@@ -26,7 +25,7 @@ class Selector extends React.Component
   render_select: ->
     return "" unless this.state.show
     <ul className='tzolkin-selector__dropdown' style={this.calculate_position()}>
-      {map this.props.options, (opt) =>
+      {this.props.options.map (opt) =>
         disabled = @props.disabler.is_disabled(opt, this.props.list)
         on_click = if !disabled then @select else null
         klass = 'disabled' if disabled

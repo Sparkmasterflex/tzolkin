@@ -3,9 +3,6 @@ import ReactDOM     from 'react-dom'
 import ClickOutside from 'react-click-outside'
 import moment       from "moment"
 
-import map      from 'lodash/collection/map'
-import clone    from 'lodash/lang/clone'
-
 import Calendar   from '../components/calendar'
 import Week       from '../components/week'
 import TimePicker from './time_picker'
@@ -64,7 +61,7 @@ class DateTimePicker extends React.Component
     weeks  = Math.floor(this.selected_date().daysInMonth()/7)
     weeks += 1 if (first_day_offset + days_in_month) > MAX_BLOCKS
 
-    map [0..weeks], (w) =>
+    [0..weeks].map (w) =>
       <Week
         week_num={w}
         first_day={first_day.format("YYYY-MM-DD")}

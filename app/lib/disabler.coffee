@@ -5,8 +5,6 @@ import {
   filter,
   find,
 }       from 'lodash/collection'
-import keys    from 'lodash/object/keys'
-import flatten from 'lodash/array/flatten'
 
 class Disabler
   constructor: (disable) ->
@@ -33,7 +31,7 @@ class Disabler
     return false unless this.configs?
     disabled_list = []
     disable = {}
-    each keys(this.configs), (type) =>
+    each Object.keys(this.configs), (type) =>
       list = @configs[type]
       return false if list?.length is 0
       disable[type] = switch type
@@ -47,7 +45,7 @@ class Disabler
       disabled_list.push(disables)
     this.used = true
 
-    return true if flatten(disabled_list).length
+    return true if disabled_list.flat(Infinity).length
     false
 
   disabled_hour: (hour) ->
